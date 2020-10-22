@@ -1,0 +1,859 @@
+
+
+/* BODY */
+BODY {
+	background: #ffffff;
+	color : #004477;
+	font-size : 8pt;
+	font-family : Verdana;
+        SCROLLBAR-FACE-COLOR: #08CDF1; 
+        SCROLLBAR-HIGHLIGHT-COLOR: #5EDCF3; 
+        SCROLLBAR-SHADOW-COLOR: #1F67AD; 
+        SCROLLBAR-3DLIGHT-COLOR: #5EDCF3; 
+        SCROLLBAR-ARROW-COLOR: #ffffff; 
+        SCROLLBAR-TRACK-COLOR: #8DE6F7; 
+        SCROLLBAR-DARKSHADOW-COLOR: #8DE6F7;
+}
+
+/* StartupPage BODY */
+BODY.StartupPage {
+	background : #ffffff;
+	color : #004477;
+	font-size : 8pt;
+	font-family : Verdana;
+}
+
+/* cell containing crumbtrail */
+TD.CrumbTrail {
+	background : #ffffff;
+	font : 8pt Verdana;
+	color : #004477;
+}
+
+/* crumbtrail transition */
+A.CrumbTrail {
+	color : #003366;
+	text-decoration : underline;
+	font : 9pt Verdana;
+}
+
+/* crumbtrail transition, mouseover (IE only) */
+A.CrumbTrail:HOVER {
+	color : maroon;
+}
+
+/* table containing caption and independent transitions */
+TABLE.PageHeader {
+}
+
+/* cell containing page logo (pick, qbf) */
+TD.PageLogo {
+}
+
+/* cell containing page caption */
+TD.PageCaption {
+	font : 9pt Verdana,Arial, Helvetica, sans-serif;
+	color : #FFFFFF;
+	background : #0B3861;
+}
+
+/* cell containing page comments (top of page) */
+TD.PageComments {
+	font : 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #7D6000;
+        background : #FAF6BB;
+}
+
+/* table containing page comments (bottom of page) */
+TABLE.PageCommentsTrailing {
+}
+
+/* cell containing page comments (bottom of page) */
+TD.PageCommentsTrailing {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : #003366;
+}
+
+/* cell containing page transitions */
+TD.PageTrans {
+	font : bold 10pt Verdana, Arial, Helvetica, sans-serif;
+	color : #003366;
+	text-align : right;
+}
+
+/* page transition */
+A.PageTrans {
+	color : #4682B4;
+	text-decoration : underline;
+}
+
+/* page transition (while mouseover, IE only) */
+A.PageTrans:HOVER {
+	color : Maroon;
+}
+
+/* table containing <jade_error> element */
+TABLE.JadeError {
+}
+
+/* cell containing <jade_error> element */
+TD.JadeError {
+	font : bold 10pt Verdana, Arial, Helvetica, sans-serif;
+	color : red;
+	text-align : center;
+}
+
+/* table containing startup page cells */
+TABLE.StartupPage {
+}
+
+/* cell containing startup page logo */
+TD.StartupLogo {
+}
+
+/* cell containing startup page caption */
+TD.StartupCaption {
+	font : bold 18pt Verdana, Arial, Helvetica, sans-serif;
+	color : #003366;
+}
+
+/* cell containing startup page transitions */
+TD.StartupTrans {
+	font : bold 11pt Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* startup page transition */
+A.StartupTrans {
+	color : #003366;
+	text-decoration : underline;
+}
+
+/* startup page transition (while mouseover, IE only) */
+A.StartupTrans:HOVER {
+	color : Maroon;
+}
+
+/* cell containing startup page caption */
+TD.CaptionConsulta {
+	font : bold 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #003366;
+}
+
+
+
+/***********************************************************
+* RecordSource
+*/
+
+/* table containing all recordsources */
+TABLE.RecSrcAll {
+}
+
+/* cell containing all recordsources */
+TD.RecSrcAll {
+}
+
+/* table containing scalar recordsource */
+TABLE.RecSrcScalar {
+}
+
+/* cell containing attribute spacer */
+TD.AttrSpacer {
+}
+
+/* cell containing attribute caption */
+TD.AttrCaption {
+	font : 8pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+
+}
+
+/* cell containing attribute caption */
+TD.AttrCaption2 {
+	font : 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+	/* gris oscuro*/
+	background : #C8DCF2;
+	/* gris claro*/
+	/*background : #f0f0f0;
+	*/
+	/* verde */
+	/*background : #CCCC99;
+	*/
+}
+
+/* cell containing attribute caption */
+TD.AttrCaption3 {
+	font : 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+/* gris claro*/
+	background : #f0f0f0; 
+
+}
+
+
+/* cell containing attribute caption */
+TD.AttrCaptionX {
+	font : 8pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+
+}
+
+/* cell containing Status Field Value*/
+TD.AttrCaption4 {
+	font : 8pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+}
+
+/* cell containing The calendar format*/
+TD.Calendar {
+	font : 6pt Verdana, Arial, Helvetica, sans-serif;
+	text-align: center;
+}
+
+/* cell containing attribute caption */
+TD.AttrBlack {
+	font : bold 10pt Verdana, Arial, Helvetica, sans-serif;
+	color : #000000;
+}
+
+/* cell containing attribute field */
+TD.AttrField {
+	font-size:11px; font-family:verdana,arial; 
+	border-style: solid; 
+	border-color:gray; border-top-width: 1px; border-right-width: 1px; 
+	border-bottom-width: 1px; border-left-width: 1px;
+}
+
+/* input GUI controls (IE only) */
+INPUT.AttrField {
+		font-size:10px; font-family:verdana,arial; 
+		border-style: solid; border-color:gray; border-top-width: 1px; 
+		border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;
+		background : #C8DCF2;
+}
+
+/* input GUI controls (IE only) */
+SELECT.AttrField {
+	font-size:10px; font-family:verdana,arial; 
+	border-style: solid; border-color:gray; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;
+	background : #C8DCF2;
+}
+
+/* input GUI controls (IE only) */
+SELECT.SelectConsulta {
+	font-size:10px; font-family:Arial; 
+	border-style: solid; border-color:gray; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;
+	background : #C8DCF2;
+}
+
+SELECT.SelectConsulta1 {
+	font-size:12px; font-family:Arial; 
+	border-style: solid; border-color:gray; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px;
+	background : #C8DCF2;
+}
+
+/* table containing recordsource caption and comments */
+TABLE.RecSrcCaptionAndComments {
+	font : bold 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #ffffff;
+	background : #000080;
+}
+
+/* cell containing recordsource caption */
+TD.RecSrcCaption {
+	font : bold 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #ffffff;
+	background : #000080;
+}
+
+/* cell containing recordsource caption */
+TD.Preview {
+	font : bold 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : #000000;
+	background : #FFFFFF;
+}
+
+
+/* cell containing recordsource caption */
+TD.RecSrcCaptionERR {
+	font : bold 10pt Verdana, Arial, Helvetica, sans-serif;
+	color : #FF0000;
+	background : #34327E;
+}
+
+
+/* cell containing recordsource comments */
+TD.RecSrcComments {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : #ffffff;
+	background : #003366;
+}
+
+/* table containing recordsource trailing comments (following recordsource) */
+TABLE.RecSrcCommentsTrailing {
+}
+
+/* cell containing recordsource trailing comments (following recordsource) */
+TD.RecSrcCommentsTrailing {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : #003366;
+}
+
+/* table containing a message if no records are found */
+TABLE.RecSrcNoDataMessage {
+}
+
+/* cell containing a message if no records are found */
+TD.RecSrcNoDataMessage {
+	font : 9pt Arial, Helvetica, sans-serif;
+	color : #004070;
+}
+
+/* table containing grid recordsource */
+/*    - when changing the background attribute, user may wish to also change the archetype property "AltRowColor" */
+TABLE.RecSrcGrid {
+	background : #dcdcdc;
+}
+
+/* cell containing grid header spacer */
+TD.RecSrcGridHeaderSpacer {
+	background : #1B85B7;
+	font : 10px Verdana Geneva Arial Helvetica sans-serif;
+	color :#004477;
+}
+
+/* cell containing grid header */
+TD.RecSrcGridHeader {
+	font : bold 8pt Verdana, Arial, Helvetica, sans-serif;
+	color : blue;
+	background : #ECECEC;
+}
+
+
+/* cell containing grid header */
+TD.RecSrcGridHeaderLL {
+	font : bold 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	background : #0D6DCB;
+}
+
+/* cell containing grid header */
+TD.RecSrcGridHeaderLLSort {
+	font : 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	height: 20px;
+	/*background : #0B173B;*/
+	background : linear-gradient(#0960D2, #01224D);
+}
+TD.RecSrcGridHeaderLLSortJ {
+	font : bold 6pt Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	background : #088A85;
+}
+TD.RecSrcGridHeaderLLSortAz {
+	font : bold 6pt Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	background : #084B8A;
+}
+TD.RecSrcGridHeaderLLSortRo {
+	font : bold 6pt Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	background : #8A0808;
+}
+
+TD.RecSrcGridHeaderLLDet {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : Red;
+	background : #FFFF99;
+}
+
+TD.RecSrcGridHeaderNegro {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : White;
+	background : #000000;
+}
+
+/* cell containing grid header */
+TD.ColumnaAmarilla {
+	font : 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : Red;
+	background : #FFFF9F;
+}
+
+TD.ColumnaNegativo {
+	font : 8pt Arial, Helvetica, sans-serif;
+	color : Red;
+/*	background : #004477;*/
+}
+
+TD.ColumnaNegativoLL {
+	font : 7pt Arial, Helvetica, sans-serif;
+	color : Red;
+/*	background : #004477;*/
+}
+
+/* cell containing grid header */
+TD.ColumnaCyan {
+	font : 7pt Verdana, Arial, Helvetica, sans-serif;
+	color : Black;
+	background : #97FFFF;
+}
+
+
+/* sortable grid header transition */
+A.RecSrcGridHeader {
+	color : #FFFFFF;
+	text-decoration : none;
+}
+
+/* sortable grid header transition (while mouseover, IE only) */
+A.RecSrcGridHeader:HOVER {
+	color : #FFFFFF;
+	text-decoration : none;	
+}
+
+/* cell containing grid row selector (radio button / checkbox) */
+TD.RecSrcGridRowSelector {
+    background: #e6e6e6;
+}
+
+/* cell containing grid attribute field */
+TD.GridAttrField {
+	font : 8pt Arial, Helvetica, sans-serif;
+	color : #004477;
+}
+/* cell containing grid attribute field LL*/
+TD.GridAttrFieldLL {
+	font : 7pt Arial, Helvetica, sans-serif;
+	color : #004477;
+}
+
+/* cell containing grid attribute field */
+TD.GridAttrFieldRojo {
+	font : 7pt Arial, Helvetica, sans-serif;
+	color : #FF0000;
+}
+
+/* cell containing grid attribute field */
+TD.GridAttrFieldRojoB {
+	font : 9pt Arial, Helvetica, sans-serif;
+	color : #FF0000;
+}
+
+
+/* cell containing grid attribute field */
+TD.GridAttrFieldNegro {
+	font : 7pt Arial, Helvetica, sans-serif;
+	color : #000000;
+}
+
+TD.GridAttrFieldNegroLL {
+	font : 9pt Arial, Helvetica, sans-serif;
+	color : #000000;
+}
+
+
+TD.MenuList {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	background : #003366;
+}
+
+A.MenuListNav {
+	color : #ffffff;
+	text-decoration : underline;
+}
+
+A.MenuListNav:HOVER {
+	color : ffffcc;
+}
+
+A.RecSrcScalarHyperlink {
+	color : #003366;
+	text-decoration : underline;
+}
+
+A.RecSrcScalarHyperlink:HOVER {
+	color : Maroon;
+}
+
+A.RecSrcGridHyperlink {
+	color : #003366;
+	text-decoration : underline;
+}
+
+A.RecSrcGridHyperlink:HOVER {
+	color : Maroon;
+}
+
+
+
+/***********************************************************
+* Toolbar
+*/
+
+/* table containing scalar recordsource toolbar */
+TABLE.RecSrcScalarToolbar {
+}
+
+/* cell containing attribute spacer */
+TD.ToolbarSpacer {
+	text-align : center;
+}
+
+/* cell containing toolbar nav transitions */
+TD.ToolbarNav {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	text-align : center;
+}
+
+/* toolbar nav transition */
+A.ToolbarNav {
+	color : #ffffff;
+	text-decoration : underline;
+	font-weight: bold;
+}
+
+/* toolbar nav transition (while mouseover, IE only) */
+A.ToolbarNav:HOVER {
+	color : ffffcc;
+}
+
+/* cell containing toolbar update transitions */
+TD.ToolbarUpdate {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	text-align : center;
+}
+
+/* toolbar nav transition */
+A.ToolbarUpdate {
+	color : #ffffff;
+	text-decoration : underline;
+	font-weight: bold;
+}
+
+/* toolbar nav transition (while mouseover, IE only) */
+A.ToolbarUpdate:HOVER {
+	color : #ffffcc;
+}
+
+/* cell containing toolbar transitions */
+TD.ToolbarTrans {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+}
+
+/* cell containing toolbar transitions (right-aligned) */
+TD.ToolbarTransRight {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	text-align : right;
+}
+
+/* toolbar transition */
+A.ToolbarTrans {
+	color : #ffffff;
+	text-decoration : none;
+	font : bold 11px;
+}
+
+/* toolbar transition (while mouseover, IE only) */
+A.ToolbarTrans:HOVER {
+	color : #CDD9EC;
+}
+
+/* table containing grid recordsource toolbar */
+TABLE.RecSrcGridToolbar {
+}
+
+/* cell containing grid toolbar nav transitions */
+TD.GridToolbarNav {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	text-align : center;
+}
+
+/* toolbar nav transition */
+A.GridToolbarNav {
+	color : #ffffff;
+	text-decoration : underline;
+	font-weight: bold;
+}
+
+/* toolbar nav transition (while mouseover, IE only) */
+A.GridToolbarNav:HOVER {
+	color : ffffcc;
+}
+
+/* cell containing query status */
+TD.RecSrcGridQueryStatus {
+	font : bold 8pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+	text-align : center;
+}
+
+/* cell containing toolbar update transitions */
+TD.GridToolbarUpdate {
+	font :bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	text-align : center;
+}
+
+/* toolbar nav transition */
+A.GridToolbarUpdate {
+	color : #ffffff;
+	text-decoration : underline;
+	font-weight: bold;
+}
+
+/* toolbar nav transition (while mouseover, IE only) */
+A.GridToolbarUpdate:HOVER {
+	color : ffffcc;
+}
+
+/* cell containing toolbar transitions */
+TD.GridToolbarTrans {
+	font : bold 9pt Verdana;
+	color :1E62A5;
+}
+
+/* cell containing toolbar transitions (right-aligned) */
+TD.GridToolbarTransRight {
+	font : bold 11pt Verdana;
+	background : #003366;
+	text-align : right;
+}
+
+
+/* toolbar transition */
+A.GridToolbarTrans {
+	color : #1E62A5;
+	font : bold 8pt Verdana;
+	text-decoration : none;
+}
+
+/* toolbar transition (while mouseover, IE only) */
+A.GridToolbarTrans:HOVER {
+	color : #000000;
+}
+
+/* dialog-style form toolbar */
+TD.DialogToolbarTrans {
+	font : bold 9pt Verdana, Arial, Helvetica, sans-serif;
+	text-align : center;
+}
+
+/* dialog-style form OK/Cancel transition */
+A.DialogToolbarTrans {
+	color : #004477;
+	text-decoration : none;
+	font : bold 9pt Verdana;
+}
+
+/* dialog-style form OK/Cancel transition (while mouseover, IE only) */
+A.DialogToolbarTrans:HOVER {
+	color : Aqua;
+}
+
+
+
+/***********************************************************
+* Login page
+*/
+
+/* table containing all other tables */
+TABLE.LoginOuterPane {
+	background : #003366;
+}
+
+/* cell containing title table */
+TD.LoginTitle {
+}
+
+/* table containing title cells */
+TABLE.LoginTitlePanes {
+	background : 003366;
+}
+
+/* cell containing logo */
+TD.LoginTitlePaneLogo {
+	text-align : center;
+}
+
+/* cell containing application name */
+TD.LoginTitlePaneAppName {
+	font : bold 10pt Verdana, Arial, Helvetica, sans-serif;
+	color : #004477;
+	text-align : center;
+}
+
+/* cell containing app description */
+TD.LoginDescription {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : #003366;
+	background : #dcdcdc;
+	text-align : center;
+}
+
+/* cell containing login form table */
+TD.LoginForm {
+}
+
+/* table containing login form */
+TABLE.LoginFormPanes {
+	background : #003366;
+}
+
+/* cell containing input field caption ("Login", "Password", "Server Name") */
+TD.LoginFormPaneCaption {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : #dcdcdc;
+	text-align : right;
+}
+
+/* cell containing input field */
+TD.LoginFormPaneField {
+	font : 9pt Verdana, Arial, Helvetica, sans-serif;
+	color : #ffffff;
+}
+
+/* cell containing submit and reset buttons */
+TD.LoginFormPaneButtons {
+	text-align : center;
+}
+
+/* text of an inactive-tab in the tabsheet */
+.menuBarText
+{
+    COLOR: #004477;
+    font : 9pt Verdana;
+    font-weight: bold;
+    TEXT-DECORATION: none
+}
+
+.menuBarText:HOVER {
+	color : #ffffcc;
+}
+
+/* text of an active-tab in the tabsheet */
+.menuBarTextSelect
+{
+    COLOR: #ffffff;
+    font : 9pt Verdana, Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    TEXT-DECORATION: none
+}
+
+/* color of the inactive tab in the tabsheet */
+
+.tabColor  
+{
+    background:#336699;
+	/* border items in IE and Opera only */
+	border-right-color: #dcdcdc;
+	border-right-style: solid;
+	border-right-width : medium;
+}
+
+/* color of the active tab in the tabsheet */
+.tabColorSelect
+{
+    background:#003366;	
+	/* border items in IE and Opera only */
+	border-right-color: #dcdcdc;
+	border-right-style: solid;
+	border-right-width : thick;
+}
+
+/* text of an inactive-tab in the startup tabsheet */
+.StartupMenuBarText
+{
+    COLOR: #004477;
+    font : 10pt Verdana;
+    font-weight: bold;
+    text-decoration : underline;
+}
+
+.StartupMenuBarText:HOVER {
+	color : #ffffcc;
+}
+
+/* text of an active-tab in the startup tabsheet */
+.StartupMenuBarTextSelect
+{
+    COLOR: #004477;
+    font : 10pt Verdana;
+    font-weight: bold;
+    TEXT-DECORATION: none
+}
+
+/* color of the inactive tab in the startup tabsheet */
+.StartupTabColor  
+{
+    background-color:#336699;
+}
+
+/* color of the active tab in the startup tabsheet */
+.StartupTabColorSelect
+{
+    background-color:#003366;
+}
+/* TOOLBAR */
+A.fontool
+{
+    COLOR: #ffffff;
+    font : bold 8pt Verdana;
+    TEXT-DECORATION: none
+}
+A.fontool:HOVER
+{
+    COLOR: #A8ECF9;
+}
+
+/* NUEVOS TAGS */
+div#tbl-container {
+width: 1000px;
+height: 500px;
+overflow: auto;
+scrollbar-base-color:#08CDF1;
+}
+
+/*table {
+table-layout: fixed;
+border-collapse: collapse;
+background-color: WhiteSmoke;
+}*/
+
+/*div#tbl-container table th {
+width: 75px;
+}*/
+
+thead th, thead th.locked	{
+font : bold 7pt Verdana, Arial, Helvetica, sans-serif;
+color : Red;
+background : #FFFF99;
+position:relative;
+cursor: default; 
+}
+
+thead th {
+top: expression(document.getElementById("tbl-container").scrollTop-2); /*IE5+ only*/
+z-index: 20;
+}
+
+thead th.locked {z-index: 30;}
+
+td.locked,  th.locked{
+font : bold 8pt Verdana, Arial, Helvetica, sans-serif;
+color : White;
+background : #0D6DCB;
+/*widht: 75; */
+left: expression(document.getElementById("tbl-container").scrollLeft); /*IE5+ only*/
+position: relative;
+z-index: 10;
+}
+
+
+/*button {
+width: 150px; 
+font-weight: bold;
+color: navy;
+margin-bottom: 5px;
+}*/
+

@@ -1,0 +1,91 @@
+.pedido-menu{
+    /*background-color: #0b5e9f !important;*/
+    background-color: white !important;
+    border-color: #e7ebee !important;
+    border: none;
+    left: 200px;
+    width: 420px;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+ /*color: #9d9d9d;*/
+ /*color: blue;*/
+ color: black;
+}
+
+.navbar-inverse .navbar-nav>li>a:hover {
+ /*color: #9d9d9d;*/
+ color: black;
+}
+
+.menu-body{
+    margin: 10px;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    padding: 0px !important;
+}
+
+.table tbody tr td {
+    font-size: 13px !important;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+	padding: 3px !important;
+}
+
+/*.pedido-menu{
+    background-color: #0b5e9f !important;
+    border-color: #e7ebee !important;
+}*/
+
+.pedido-accion{
+	color: #337ab7 !important;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    /*color: #fff;
+    background-color: #080808;*/
+    background-color: #53b4ff !important;
+}
+
+/*.pedido-body{
+    margin: 60px;
+}
+.pedido-container{
+	height: 10px;
+    width: 1320px;
+}
+*/
+.pedidos-modal-content{
+    /*padding: 25px !important;*/
+    width: 650px !important;
+}
+.form-control{
+    height: 34 !important;
+    font-size: 12px !important;
+}
+.pedidos-modal-header{
+    background : #0b5e9f;
+    color : white;
+}
+
+@media (min-width: 1200px){
+    .pedido-container{
+        width: 420px;
+        /*padding: 0 0 0 50px;*/
+    }
+}
+
+.menu-despegable{
+    background-color:#1a1919 !important;
+    left: -380px !important;
+}
+
+.borde{
+    border-color:white !important;
+    /*width: 550px;*/
+}
+
+input[type=date], input[type=time], input[type=datetime-local], input[type=month]{
+    line-height:14px !important;
+}
