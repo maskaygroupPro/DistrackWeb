@@ -42,6 +42,7 @@ $tabla.="<td bgcolor=blue><b><font color=white>Juego</b></td>";//14
 //$tabla.="<td bgcolor=blue><b><font color=white> </b></td>";//15
 $tabla.="<td bgcolor=blue><b><font color=white>Libro</b></td>";//16
 $tabla.="<td bgcolor=blue><b><font color=white>Orden</b></td>";//17
+$tabla.="<td bgcolor=blue><b><font color=white>Estado</b></td>";//17
 $tabla.="<td bgcolor=blue></td>";//15
 
 $tabla.="</tr>";
@@ -65,6 +66,7 @@ $tabla.="</tr>";
 			$JUEGO		= $row[8];
 			$LIBRO		= $row[9];
 			$ORDEN		= $row[10];
+			$ESTADO		= $row[11];
 			
 			
 
@@ -83,6 +85,7 @@ $tabla.="</tr>";
 		$tabla.="<td>".$JUEGO."</td>";//5
 		$tabla.="<td>".$LIBRO."</td>";//14
 		$tabla.="<td>".$ORDEN."</td>";//17
+		$tabla.="<td>".$ESTADO."</td>";//17
 		
 		$tabla.="</tr>";//16
 		
@@ -217,6 +220,7 @@ $tabla.="<td bgcolor=blue><b><font color=white>Hora</b></td>";//3
 $tabla.="<td bgcolor=blue><b><font color=white>Estado</b></td>";//5
 $tabla.="<td bgcolor=blue><b><font color=white>Placa</b></td>";//14
 $tabla.="<td bgcolor=blue><b><font color=white>N° guia</b></td>";//16
+$tabla.="<td bgcolor=blue><b><font color=white>Fecha Reprogramada</b></td>";//16
 $tabla.="<td bgcolor=blue></td>";//15
 
 $tabla.="</tr>";
@@ -241,6 +245,7 @@ $tabla.="</tr>";
 			$ESTADO		= $row[9];
 			$PLACA		= $row[10];
 			$NGUIA   	= $row[11];
+			$FECHAREPRO = $row[12];
 			
 			
 
@@ -259,6 +264,7 @@ $tabla.="</tr>";
 		$tabla.="<td>".$ESTADO."</td>";//5
 		$tabla.="<td>".$PLACA."</td>";//14
 		$tabla.="<td>".$NGUIA."</td>";//17
+		$tabla.="<td>".$FECHAREPRO."</td>";//17
 		
 		$tabla.="</tr>";//16
 		
