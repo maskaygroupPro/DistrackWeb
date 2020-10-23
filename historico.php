@@ -35,7 +35,7 @@ $colcc='#E0F8E6';
     <!-- Jquery Datatables Css --><!-- Tabla responsiva -->
     <link href="css/DataTables/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="css/DataTables/responsive.dataTables.min.css" rel="stylesheet" />
-    <script src="js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery/jquery.min.js"></script>
 </head>
 <body>
         
@@ -203,11 +203,12 @@ while($row = mysql_fetch_array($result)) {
                                             <th width="10%"><center>Agente</center></th>
                                             <th width="25%"><center>Nombre</center></th>
                                             <th width="10%"><center>Reparto</center></th>
+                                            <th width="5%"><center>caso</center></th>
                                             <th width="10%"><center>Zona</center></th>
-                                            <th width="20%"><center>Distrito</center></th>
-                                            <th width="10%"><center>Fecha</center></th>
-                                            <th width="10%"><center>Hora</center></th>
+                                            <th width="14%"><center>Distrito</center></th>
+                                            <th width="10%"><center>Horas</center></th>
                                             <th width="10%"><center>Estado</center></th>
+                                            <th width="10%"></th>
                                             <th width="10%"></th>
                                             <th width="10%"></th>
                                             <th width="10%"></th>
@@ -220,9 +221,9 @@ while($row = mysql_fetch_array($result)) {
                                             <td class="center" align="center"><?=$value['codproducto']?></td> 
                                             <td class="center"><?=$value['cliente']?></td> 
                                             <td class="center"><?=$value['detalle']?></td> 
+                                            <td class="center"><?=$value['caso']?></td> 
                                             <td class="center"><?=$value['refcliente']?></td> 
                                             <td class="center"><?=$value['distcliente']?></td> 
-                                            <td class="center"><?=$value['fechaprog']?></td> 
                                             <td class="center"><?=$value['horentrega']?></td> 
                                             <td class="center" align="center" style="background-color:<?=$value['col_back']?>;color:<?=$value['col_text'];?> !important;"><?=$value['estado']?></td> 
                                                 <form action="" id="estadoAjax">
@@ -254,9 +255,16 @@ while($row = mysql_fetch_array($result)) {
                                                     ?>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a  style="color: #1a1919;" href="javascript:loadModalReprogramar(<?=$value['Id']?>);"><i class="fas fa-history"></i></a>
+                                                    <?php 
+                                                    
+                                                        if($value['estado'] == "En Ruta"){
+                                                    ?>
+                                                        <a  style="color: #1a1919;" href="javascript:loadModalReprogramar(<?=$value['Id']?>);"><i class="fas fa-history"></i></a>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </td>
-                                            </td>
+                                            
                                                 </form>
                                         </tr>
                                     <?php }?>                              

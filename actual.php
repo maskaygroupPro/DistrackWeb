@@ -201,6 +201,7 @@ while($row = mysql_fetch_array($result)) {
                                             <th width="10%"></th>
                                             <th width="10%"></th>
                                             <th width="10%"></th>
+                                            <th width="10%"></th>
 
                                             
                                         </tr>
@@ -242,6 +243,16 @@ while($row = mysql_fetch_array($result)) {
                                                     } else {
                                                         echo "<a></a>";
                                                     }
+                                                    ?>
+                                                </td>
+                                                <td class="text-center">
+                                                    <?php 
+                                                    
+                                                        if($value['estado'] == "En Ruta"){
+                                                    ?>
+                                                        <a  style="color: #1a1919;" href="javascript:loadModalReprogramar(<?=$value['Id']?>);"><i class="fas fa-history"></i></a>
+                                                    <?php
+                                                        }
                                                     ?>
                                                 </td>
                                             </td>
@@ -326,12 +337,32 @@ while($row = mysql_fetch_array($result)) {
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="reprogramarModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content pedidos-modal-content">
+                <div class="modal-header pedidos-modal-header">
+                    <h4 class="modal-title" id="defaultModalLabel">Reprogramar</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
         function loadModalDaryza(daryza_id){
             console.log(daryza_id);
             $('.modal-body').load('daryzaModal.php?indice='+daryza_id,function(){
                 $('#daryzaModal').modal({show:true});
+            });
+        }
+        function loadModalReprogramar(daryza_id){
+            console.log("entre?");
+            console.log(daryza_id);
+
+            $('.modal-body').load('reprogramarModal.php?indice='+daryza_id,function(){
+                $('#reprogramarModal').modal({show:true});
             });
         }
     </script>

@@ -43,20 +43,101 @@ while($row = mysql_fetch_array($result)) {
                                     <tr><td>Estado</td><td><?=$value['estado']?></td><td>Fecha</td><td><?=$value['fechaprog']?></td></tr>
                                     
                             	<?php endforeach;?>
+                                <tr><td ><strong>Nueva Fecha</strong></td> 
+                                    <td>
+                                        <input class="fecha" type='date' id='fechaNueva'  value='<?php echo !empty($value['fechaprog']) ? $value['fechaprog'] : date("Y-m-d",time()-(0*24*3600)) ?>'>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td ><strong>Placa</strong></td> 
+                                    <td>
+                                    <input class="placa" type='text' id='placaReprog'  value='<?php echo $value['placa'] ?> '>
+                                    
+                                    </td>
+                                </tr>
+
                             </tbody>                      
                     </table>
                    
-                    <form action="" name="valorT">
+                    <div>
+                        <input class="btn btn-primary putll-right" type="button" id="guardarReprog" href="javascript:;" 
+                        onclick="reprogramarPedido($('#fechaNueva').attr('value'), $('#placaReprog').attr('value'), <?php echo $indice_ ?>);
+                        return false;" value="Reprogramar"/>
                     
-                        <input type="submit" name="valor" value="test" >
-                    </form>
+                   </div>
 
 
                 </div>
                 <div class="panel-footer">
-                	<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Cerrar </button>
+                	<button type="button" class="btn btn-danger " data-dismiss="modal"><i class="fa fa-close"></i> Cerrar </button>
+                    <div class="result text-info" id="resultado"></div>
                 </div>
         </div>
     </div>
 
+    <style>
+    .myborder {
+        border: 2px solid #fe4918;
+    }
+
+    </style>
+    <script>
+
+        $(document).on('blur','#fechaNueva',function(e){
+            $("#fechaNueva").attr('value', e.target.value)
+            console.log('reprogramado(F): ',  $("#fechaNueva").val() )
+            $('.fecha').addClass('myborder');
+
+        });
+
+        $(document).on('blur','#placaReprog',function(e){
+            $("#placaReprog").attr('value', e.target.value)
+            console.log('reprogramado(P): ',  $("#placaReprog").val() )
+            $('.placa').addClass('myborder');
+
+        });
+    </script>
     
+    <script>
+        function reprogramarPedido(fecha, placa, indice){
+            var parametros = {
+                    "fecha" : fecha,
+                    "placa" : placa,
+                    "indice": indice
+            };
+            console.log(parametros);
+            if (confirm('¿Estas seguro de modificar los datos?')){
+
+                $.ajax({
+
+                    data:  parametros, 
+                    url:   'reprogramarAjax.php', 
+                    type:  'post', 
+                    beforeSend: function () {
+                        // console.log('beforeSend')
+                        $('.result').text('Procesando, espere por favor...');
+                        // $('.result').append('<img src="icons/loading.gif" /> ')
+                            
+                    },
+                    success:  function (response) { 
+                        console.log(response)
+                        // alert(response)
+                        $(".result").html(response);
+                        $('.result').removeClass('text-info').addClass('text-success');
+                        
+                        setTimeout(function(){// wait for 5 secs(2)
+                            location.reload(); // then reload the page.(3)
+                        }, 4000); 
+                        
+                    },
+                    error: function(response){
+                        $('.result').text('Ocurrio un error inesperado !');
+                        $('.result').removeClass('text-info').removeClass('text-success').addClass('text-danger');
+
+
+                    }
+                });
+            }   
+
+        }
+</script>
