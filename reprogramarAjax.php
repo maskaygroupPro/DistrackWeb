@@ -20,13 +20,15 @@
     
     $query = "CALL intralot.ReprogramarPedidos('". $placa ."','" . $fecha . "','" . $indice . "')";
 
-    $result = mysql_query($query ) or die (mysql_error());
+    $result = mysql_query($query ) ;
+    
+    // mysql_close();
 
-    if ($result){
+    if($result === false){
         // echo "Pedido reprogramado! ".$result;
-        echo "Pedido reprogramado! ";
+        die( "Algo sucedio, no se realizaron cambios. ".mysql_error() . '::'.mysql_errno());
     }
     else
-        echo "Algo sucedio, no se realizaron cambios ".$result;
+        echo "Pedido reprogramado! ";
 
 ?>

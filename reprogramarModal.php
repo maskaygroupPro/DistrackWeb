@@ -123,7 +123,7 @@ while($row = mysql_fetch_array($result)) {
                         console.log(response)
                         // alert(response)
                         $(".result").html(response);
-                        $('.result').removeClass('text-info').addClass('text-success');
+                        $('.result').removeClass('text-info').removeClass('text-danger').addClass('text-success');
                         
                         setTimeout(function(){// wait for 5 secs(2)
                             location.reload(); // then reload the page.(3)
@@ -131,11 +131,13 @@ while($row = mysql_fetch_array($result)) {
                         
                     },
                     error: function(response){
-                        $('.result').text('Ocurrio un error inesperado !');
+                        $('.result').text( response);
                         $('.result').removeClass('text-info').removeClass('text-success').addClass('text-danger');
 
 
                     }
+                }).fail(function(jqXHR, textStatus, errorThrown){
+                    $('.result').text(errorThrown); 
                 });
             }   
 
