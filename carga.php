@@ -7,17 +7,17 @@ error_reporting(0);
 require_once "include/conexion.php";
 include "filtro.php";
 $colcc='#CEECF5';
-foreach ($_POST as $key => $value){
-    $$key = $value;
-}
-foreach ($_GET as $key => $value){
-    $$key = $value;
-}
+// foreach ($_POST as $key => $value){
+//     $$key = $value;
+// }
+// foreach ($_GET as $key => $value){
+//     $$key = $value;
+// }
 $colcc='#E0F8E6'; 
 ?>
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="refresh" content="60"/>
+<!-- <meta http-equiv="refresh" content="60"/> -->
 <head>	
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 	<!-- <link type="image/x-icon" href="favicon.ico" rel="icon" /> -->
@@ -34,7 +34,9 @@ $colcc='#E0F8E6';
     <link href="css/DataTables/dataTables.bootstrap.min.css" rel="stylesheet" />
     <link href="css/DataTables/responsive.dataTables.min.css" rel="stylesheet" />
     <script src="js/jquery/jquery.min.js"></script>
-    <meta http-equiv="refresh" content="60">
+	
+
+    <!-- <meta http-equiv="refresh" content="60"> -->
 </head>
 <body>
 <script language="JavaScript" type="text/javascript"></script>
@@ -97,193 +99,33 @@ $colcc='#E0F8E6';
 	<div class="panel-body">
 		<div class="panel-body p-b-25">
 			<div class="row">
-                <div class="col-md-1">
-                </div>
+                
                 <div class="col-md-11">
-					<?php 
 					
-				if(isset($_POST["Import"]))
-				{
-					echo "Cargando pedido";
-					$filename=$_FILES["file"]["tmp_name"];
-					if($_FILES["file"]["size"] > 0)
-					{
-						echo "enviando pedido";
-						$file = fopen($filename, "r");
-						$emapData = fgetcsv($file, 10000, ",");
-						$cont = true;
-						while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
-						{
-							if($cont){
-								$cont=false;
-								$query9="call intralot.ProgramarMateriales(".$emapData[1].")";
-								$result=mysql_query($query9) or die(mysql_error());  //die muestra el error y sale
-								//call intralot.ProgramarMateriales($emapData[1]);
-							}
-							$numPedido_ = $emapData[0];
-							$fechaProg_ = $emapData[1];
-							$idPedido_ = $numPedido_ .".". date("ymd", strtotime($fechaProg_));
-							$localPedido_ = "";
-							$cantidad_ = "0";
-							$volumen_ = "0";
-							
-							$cliente_ = "";
-							$telfCliente_ = "";
-							$dirCliente_ = "";
-							$disCliente_ = "";
-							$refCliente_ = "";
-							$clase_ = "";
-							$lat_prg_ = "";
-							$lon_prg_ = "";
-							$rad_prg_ = "";
-
-							$queryAux = "SELECT d.nombre,d.direccion,d.distrito,d.region,d.cod_zona,d.latitud,d.longitud,d.radio  FROM intralot.terminales as d WHERE d.terminal = "."'".$numPedido_."'";
-							$ress = mysql_query($queryAux);
-							while($row = mysql_fetch_array($ress)) {
-								$cliente_ =  $row["nombre"];
-								$dirCliente_ =  $row["direccion"];
-								$disCliente_ =  $row["distrito"];
-								$refCliente_ =  $row["region"];
-								$clase_ = $row["cod_zona"];
-								$lat_prg_ = $row["latitud"];
-								$lon_prg_ = $row["longitud"];
-								$rad_prg_ = $row["radio"];
-							} 
-						  
-						  
-							
-							$codProducto_ = $emapData[0];
-							$placa_ = $emapData[2];
-							$orden_ = $emapData[3];
-							$documento_ = $numPedido_ .".". date("ymd", strtotime($fechaProg_));
-							$estado_ = "En Ruta";
-							$idPlaca_ = "";
-							
-							$queryAuxx = "SELECT d.VehicleID FROM gpslog.livedata as d WHERE d.VehicleReg = "."'".$placa_."' and d.VehicleActive='1'" ;
-							$resss = mysql_query($queryAuxx);
-							while($row = mysql_fetch_array($resss)) {
-								$idPlaca_ =  $row["VehicleID"];  
-							}
-							
-							$peso_ = "0";
-							//$clase_ = "";
-							$aux1_ = "0";
-							$aux2_ = "0";
-							$aux3_ = "0";
-							$aux4_ = "0";
-							$aux5_ = "0";
-							$u_transportista_ = "";
-							$queryAux = "SELECT d.usuario  FROM appdistrack.usuarios as d WHERE d.completo = "."'".$placa_."' and d.organizacion='INTRALOT'";
-							$ress = mysql_query($queryAux);
-							while($row = mysql_fetch_array($ress)) {
-								$u_transportista_ =  $row["usuario"];
-							} 
-
-							$etapa_ = "EN RUTA";
-							$corrini_ = date("Ymd", strtotime($fechaProg_))."080000";
-							$corract_ = date("Ymd", strtotime($fechaProg_))."080000";;
-							$molde_ = "";
-							$detalle_ = $emapData[4]; //tipo de programacon
-							
-							$parte1 = "intralot.pedidos(numpedido,idpedido,localpedido,fechaprog,cantidad,volumen,cliente,telfcliente,dircliente,distcliente,refcliente,codproducto,placa,orden,documento,estado,idplaca,peso,clase,aux1,aux2,aux3,aux4,aux5,u_transportista,lat_prg,lon_prg,rad_prg,etapa,corrini,corract,molde,detalle)"; 
-							$parte2 = "('$numPedido_','$idPedido_','$localPedido_','$fechaProg_','$cantidad_','$volumen_','$cliente_','$telfCliente_','$dirCliente_','$disCliente_','$refCliente_','$codProducto_','$placa_','$orden_','$documento_','$estado_','$idPlaca_','$peso_','$clase_','$aux1_','$aux2_','$aux3_','$aux4_','$aux5_','$u_transportista_','$lat_prg_','$lon_prg_','$rad_prg_','$etapa_','$corrini_','$corract_','$molde_','$detalle_')";
-							$sql = "INSERT into $parte1 values $parte2 ";
-							$resultado1 = mysql_query($sql);
-
-							$clienteMoli = $orden_." ".$cliente_;
-
-							$parte11 = "molitalia.pedidos(estado,codproducto,placa,orden,documento,u_transportista,numpedido,idpedido,localpedido,fechaprog,cantidad,volumen,cliente,telfcliente,dircliente,distcliente,refcliente,peso,molde,detalle)"; 
-							$parte22 = "('$estado_','$codProducto_','$placa_','$orden_','$documento_','$u_transportista_','$numPedido_','$idPedido_','$localPedido_','$fechaProg_','$cantidad_','$volumen_','$clienteMoli','$telfCliente_','$dirCliente_','$disCliente_','$refCliente_','$peso_','INTRALOT','$detalle_')";
-
-							$sql2 = "INSERT into $parte11 values $parte22";
-							$resultado2 = mysql_query($sql2);
-							if($resultado1 && $resultado2){
-								echo "todo correcto";
-							}
-							else{
-								echo "ocurio un error en la terminal ".$numPedido_;
-								break;
-							}
-
-						}
-						fclose($file);
-						echo 'Se Cargo correctamente pedidos';
-						header('Location: carga.php');
-					}
-					else
-					echo 'Pedidos: Formato no aceptado, solo .CSV'; 
-				 
-				}
-				?>
-					<form action="carga.php" enctype="multipart/form-data" method="post" role="form">
+				<form  enctype="multipart/form-data" id="formCargaPedido" method="post" role="form">
 						<div class="form-group">
 							<label for="exampleInputFile">Cargar PEDIDOS</label>
 							<input type="file" name="file" id="file" size="150">
 							<p class="help-block">Ingrese solo archivos .CSV</p>
-							<button type="submit" class="btn btn-primary" style="width:150px" name="Import" value="Import">
+							
+							<button type="submit" class="btn btn-primary" style="width:150px" name="Import" value="Import" 
+							id='botonSubidor'  >
 								<span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>  Cargar
 							</button>
 						</div>
 					</form>
 				</div>
-				<div class="col-md-1">
-				</div>
+				
 			</div>
 				<br>
 				<br>
 				<br>
 			<div class="row">
-				<div class="col-md-1"></div>
+				
 				<div class="col-md-11">
 					<div class="col-md-3">
-											<?php 
-							//CARGAR CONSUMIBLES
-							if(isset($_POST["Import2"]))
-							{
-								$filename=$_FILES["file"]["tmp_name"];
-								if($_FILES["file"]["size"] > 0)
-								{
-									$file = fopen($filename, "r");
-									$emapData = fgetcsv($file, 10000, ",");
-									while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
-									{
-										$codeReparto_ = $emapData[1].".".date("ymd", strtotime($emapData[0]));
-										$fechaProg_ = $emapData[0];
-										$terminal_ = $emapData[1];
-										$nombre_ = "";
-										$placa_ = "";
-										$queryAux = "SELECT d.cliente, d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
-										$ress = mysql_query($queryAux);
-										if($row = mysql_fetch_array($ress)){
-											$nombre_ =  $row["cliente"];
-											$placa_ =  $row["placa"];
-										}
-										$item3926_ = $emapData[2];
-										$item4788_ = $emapData[3];
-										$item5667_ = $emapData[4];
-										$item5669_ = $emapData[5];
-										$item5668_ = $emapData[6];
-										$item0915_ = $emapData[7];
-										$item0861_ = $emapData[8];
-										$item2587_ = $emapData[9];
-									
-										$parte1 = "intralot.prg_consumibles(codreparto,fechaprog,terminal,nombre,item3926,item4788,item5667,item5669,item5668,item0915,item0861,item2587,placa)"; 
-										$parte2 = "('$codeReparto_','$fechaProg_','$terminal_','$nombre_','$item3926_','$item4788_','$item5667_','$item5669_','$item5668_','$item0915_','$item0861_','$item2587_','$placa_')";
-										$sql = "INSERT into $parte1 values $parte2 ";
-										mysql_query($sql);
-
-									}
-									fclose($file);
-									echo 'Se Cargo correctamente consumibles';
-									header('Location: carga.php');
-								}
-								else
-									
-									echo 'Consumible: Formato no aceptado, solo .CSV';  
-
-							}
-							?>
-						<form action="carga.php" enctype="multipart/form-data" method="post" role="form">
+											
+						<form id="formCargaConsumibles" enctype="multipart/form-data" method="post" role="form">
 							<div class="form-group">
 								<label for="exampleInputFile">EXCEL CONSUMIBLES</label>
 								<input type="file" name="file" id="file" size="150">
@@ -295,56 +137,8 @@ $colcc='#E0F8E6';
 						</form>
 					</div>
 					<div class="col-md-3">
-											<?php 
-
-						//CARGAR LOGISTICO
-						if(isset($_POST["Import3"]))
-						{
-							$filename=$_FILES["file"]["tmp_name"];
-							
-							if($_FILES["file"]["size"] > 0)
-							{
-								
-								$file = fopen($filename, "r");
-								
-								$emapData = fgetcsv($file, 10000, ",");
-								while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
-								{
-									$fechaProg_ = $emapData[0];
-									$terminal_ = $emapData[1];
-									$codigo_ = $emapData[2];
-									$cantidad_ = $emapData[3];
-									$descripcion_ = $emapData[4];
-									$caso_ = $emapData[5];
-
-									$nombre_ = "";
-
-									$placa_ = "";
-									$queryAux = "SELECT d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
-									$ress = mysql_query($queryAux);
-									if($row = mysql_fetch_array($ress)){
-										$placa_ =  $row["placa"];
-									}
-
-									$codReparto_ = $emapData[1].".".date("ymd", strtotime($emapData[0]));
-									
-									$parte1 = "intralot.prg_logisticos(terminal,nombre,cantidad,descripcion,caso,fechaprog,placa,codreparto)"; 
-									$parte2 = "('$terminal_','$nombre_','$cantidad_','$descripcion_','$caso_','$fechaProg_','$placa_','$codReparto_')";
-									$sql = "INSERT into $parte1 values $parte2 ";
-									mysql_query($sql);
-
-								}
-								fclose($file);
-								echo 'Se Cargo correctamente logisticos';
-								header('Location: carga.php');
-							}
-							else
-								
-								echo 'Logistico: Formato no aceptado, solo .CSV'; 
-
-						}
-						?>
-						<form action="carga.php" enctype="multipart/form-data" method="post" role="form">
+											
+						<form id="formCargaLogisticos" enctype="multipart/form-data" method="post" role="form">
 							<div class="form-group">
 								<label for="exampleInputFile">EXCEL LOGISTICOS</label>
 								<input type="file" name="file" id="file" size="150">
@@ -356,63 +150,10 @@ $colcc='#E0F8E6';
 					</div>
 					<div class="col-md-3">
 
-					<?php 
-
-					//CARGAR INSTANTANEAS
-					if(isset($_POST["Import4"]))
-					{
-						
-						$filename=$_FILES["file"]["tmp_name"];
-						
-						if($_FILES["file"]["size"] > 0)
-						{
-							
-							$file = fopen($filename, "r");
-						
-							$emapData = fgetcsv($file, 10000, ",");
-							while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
-							{
-								$fechaProg_ = $emapData[0];
-								$terminal_ = $emapData[1];
-								$cod_juego_ = $emapData[2];
-								$cant_libro_ = $emapData[3];
-								$cant_ticket_ = $emapData[4];
-								$precio_ = $emapData[5];
-								$item_ = $emapData[6];
-								$descripcion_ = $emapData[7];
-								$orden_ = $emapData[8];
-
-								$codReparto_ = $emapData[1].".".date("ymd", strtotime($emapData[0]));
-								$nombre_ = "";
-								$dato_ = $terminal_."-".$orden_;
-
-								$placa_ = "";
-								$queryAux = "SELECT d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
-								$ress = mysql_query($queryAux);
-								if($row = mysql_fetch_array($ress)){
-									$placa_ =  $row["placa"];
-								}
-
-								
-								$parte1 = "intralot.prg_instantaneas(codreparto,cod_juego,cant_libro,cant_ticket,precio,item,descripcion,nombre,orden,dato,fechaprog,placa)"; 
-								$parte2 = "('$codReparto_','$cod_juego_','$cant_libro_','$cant_ticket_','$precio_','$item_','$descripcion_','$nombre_','$orden_','$dato_','$fechaProg_','$placa_')";
-								$sql = "INSERT into $parte1 values $parte2 ";
-								mysql_query($sql);
-
-							}
-							fclose($file);
-							echo 'Se Cargo correctamente instantaneas';
-							header('Location: carga.php');
-						}
-						else
-							echo 'Instantaneas: Formato no aceptado, solo .CSV';
-							 
-
-					}
-					?>
+					
 
 
-					<form action="carga.php" enctype="multipart/form-data" method="post" role="form">
+					<form id="formCargaInstantaneas" enctype="multipart/form-data" method="post" role="form">
 
 						<div class="form-group">
 							<label for="exampleInputFile">EXCEL INSTANTANEAS</label>
@@ -430,6 +171,334 @@ $colcc='#E0F8E6';
 	</div>
 
 </body>
+
+<!-- <script>
+		$(document).ready(function() {     
+			$('#botonSubidor').click(hola);
+
+			function hola (){
+           	 console.log('-------------------------')
+        	}
+		})
+			
+
+		function uploadAjax(){
+
+			console.log('heyyyyyyyyyyyyyy')
+
+		}
+	</script> -->
+	<script type="text/javascript">
+        function loadModalDaryza(daryza_id){
+            console.log(daryza_id);
+            $('.modal-body').load('daryzaModal.php?indice='+daryza_id,function(){
+                $('#daryzaModal').modal({show:true});
+            });
+		}
+		
+
+		
+		$( document ).ready(function(){
+			$("#formCargaPedido").on("submit", function(e){
+				e.preventDefault();
+				$('.result').removeClass('text-danger').removeClass('text-success').text('');
+				
+				var f = $(this);
+				var formData = new FormData(document.getElementById("formCargaPedido"));
+				// formData.append("dato", "valor");
+				
+				// Carga el archivo
+				// formData.append(f.attr("file"), $(this)[0].files);
+				let fileName = f.find('input').val();
+
+				console.log('El archivo ', fileName)
+				if(fileName == '' )
+				{
+					$('#miModal').modal({show:true});
+					$("#result").text('Debe cargar un archivo');
+
+					// break;
+				}
+				else{
+					
+					formData.append( f.find('button').attr('value') , f.find('button').attr('value') );
+
+					// console.log('aaaaaaaaaaaaaaa' + f.find('button').attr('value') )
+
+					$.ajax({
+						url: "cargaAjax.php",
+						type: "post",
+						// dataType: "html",
+						data: formData,
+						cache: false,
+						contentType: false,
+						processData: false,
+						beforeSend: function () {
+							console.log('beforeSend')
+							
+							$('#miModal').modal({show:true});
+							
+							// for (var value of formData.values()) {
+							// 	console.log(value); 
+							// }
+							// Se va mostrar un mensaje ... modal
+							$('#result').text('Procesando, espere por favor...');
+							// $('.result').append('<img src="icons/loading.gif" /> ')
+								
+						},
+						success:  function (response) { 
+							console.log("respuestaa: " , response);
+							// alert(response)
+							let salida = jQuery.parseJSON(response);
+							if(salida.error){
+								console.log("error aqui: ");
+								$("#result").addClass('text-danger')
+								$("#result").text(salida.error);
+							}
+							if(salida.success){
+								console.log(" success aqui ");
+								$("#result").addClass('text-success')
+								$("#result").text(salida.success);
+							}
+							// $('.result').removeClass('text-info').removeClass('text-danger').addClass('text-success');
+							
+							// setTimeout(function(){// wait for 5 secs(2)
+							//     location.reload(); // then reload the page.(3)
+							// }, 4000); 
+							
+							
+						},
+					});
+				}
+				
+			});
+
+			$("#formCargaConsumibles").on("submit", function(e){
+				e.preventDefault();
+				$('.result').removeClass('text-danger').removeClass('text-success').text('');
+				
+				var f = $(this);
+				var formData = new FormData(document.getElementById("formCargaConsumibles"));
+				// formData.append("dato", "valor");
+				
+				// Carga el archivo
+				// formData.append(f.attr("file"), $(this)[0].files);
+				let fileName = f.find('input').val();
+
+				console.log('El archivo ', fileName)
+				if(fileName == '' )
+				{
+					$('#miModal').modal({show:true});
+					$("#result").text('Debe cargar un archivo');
+
+					// break;
+				}
+				else{
+					
+					formData.append( f.find('button').attr('value') , f.find('button').attr('value') );
+
+					// console.log('aaaaaaaaaaaaaaa' + f.find('button').attr('value') )
+
+					$.ajax({
+						url: "cargaAjax.php",
+						type: "post",
+						// dataType: "html",
+						data: formData,
+						cache: false,
+						contentType: false,
+						processData: false,
+						beforeSend: function () {
+							console.log('beforeSend')
+							
+							$('#miModal').modal({show:true});
+							
+							// for (var value of formData.values()) {
+							// 	console.log(value); 
+							// }
+							// Se va mostrar un mensaje ... modal
+							$('#result').text('Procesando, espere por favor...');
+							// $('.result').append('<img src="icons/loading.gif" /> ')
+								
+						},
+						success:  function (response) { 
+							console.log("respuestaa: " , response);
+							// alert(response)
+							let salida = jQuery.parseJSON(response);
+							if(salida.error){
+								console.log("error aqui: ");
+								$("#result").addClass('text-danger')
+								$("#result").text(salida.error);
+							}
+							if(salida.success){
+								console.log(" success aqui ");
+								$("#result").addClass('text-success')
+								$("#result").text(salida.success);
+							}
+							// $('.result').removeClass('text-info').removeClass('text-danger').addClass('text-success');
+							
+							// setTimeout(function(){// wait for 5 secs(2)
+							//     location.reload(); // then reload the page.(3)
+							// }, 4000); 
+							
+							
+						},
+					});
+				}
+				
+			});
+
+			$("#formCargaLogisticos").on("submit", function(e){
+				e.preventDefault();
+				$('.result').removeClass('text-danger').removeClass('text-success').text('');
+				
+				var f = $(this);
+				var formData = new FormData(document.getElementById("formCargaLogisticos"));
+				// formData.append("dato", "valor");
+				
+				// Carga el archivo
+				// formData.append(f.attr("file"), $(this)[0].files);
+				let fileName = f.find('input').val();
+
+				console.log('El archivo ', fileName)
+				if(fileName == '' )
+				{
+					$('#miModal').modal({show:true});
+					$("#result").text('Debe cargar un archivo');
+
+					// break;
+				}
+				else{
+					
+					formData.append( f.find('button').attr('value') , f.find('button').attr('value') );
+
+					// console.log('aaaaaaaaaaaaaaa' + f.find('button').attr('value') )
+
+					$.ajax({
+						url: "cargaAjax.php",
+						type: "post",
+						// dataType: "html",
+						data: formData,
+						cache: false,
+						contentType: false,
+						processData: false,
+						beforeSend: function () {
+							console.log('beforeSend')
+							
+							$('#miModal').modal({show:true});
+							
+							// for (var value of formData.values()) {
+							// 	console.log(value); 
+							// }
+							// Se va mostrar un mensaje ... modal
+							$('#result').text('Procesando, espere por favor...');
+							// $('.result').append('<img src="icons/loading.gif" /> ')
+								
+						},
+						success:  function (response) { 
+							console.log("respuestaa: " , response);
+							// alert(response)
+							let salida = jQuery.parseJSON(response);
+							if(salida.error){
+								console.log("error aqui: ");
+								$("#result").addClass('text-danger')
+								$("#result").text(salida.error);
+							}
+							if(salida.success){
+								console.log(" success aqui ");
+								$("#result").addClass('text-success')
+								$("#result").text(salida.success);
+							}
+							// $('.result').removeClass('text-info').removeClass('text-danger').addClass('text-success');
+							
+							// setTimeout(function(){// wait for 5 secs(2)
+							//     location.reload(); // then reload the page.(3)
+							// }, 4000); 
+							
+							
+						},
+					});
+				}
+				
+			});
+
+			$("#formCargaInstantaneas").on("submit", function(e){
+				e.preventDefault();
+				$('.result').removeClass('text-danger').removeClass('text-success').text('');
+				
+				var f = $(this);
+				var formData = new FormData(document.getElementById("formCargaInstantaneas"));
+				// formData.append("dato", "valor");
+				
+				// Carga el archivo
+				// formData.append(f.attr("file"), $(this)[0].files);
+				let fileName = f.find('input').val();
+
+				console.log('El archivo ', fileName)
+				if(fileName == '' )
+				{
+					$('#miModal').modal({show:true});
+					$("#result").text('Debe cargar un archivo');
+
+					// break;
+				}
+				else{
+					
+					formData.append( f.find('button').attr('value') , f.find('button').attr('value') );
+
+					// console.log('aaaaaaaaaaaaaaa' + f.find('button').attr('value') )
+
+					$.ajax({
+						url: "cargaAjax.php",
+						type: "post",
+						// dataType: "html",
+						data: formData,
+						cache: false,
+						contentType: false,
+						processData: false,
+						beforeSend: function () {
+							console.log('beforeSend')
+							
+							$('#miModal').modal({show:true});
+							
+							// for (var value of formData.values()) {
+							// 	console.log(value); 
+							// }
+							// Se va mostrar un mensaje ... modal
+							$('#result').text('Procesando, espere por favor...');
+							// $('.result').append('<img src="icons/loading.gif" /> ')
+								
+						},
+						success:  function (response) { 
+							console.log("respuestaa: " , response);
+							// alert(response)
+							let salida = jQuery.parseJSON(response);
+							if(salida.error){
+								console.log("error aqui: ");
+								$("#result").addClass('text-danger')
+								$("#result").text(salida.error);
+							}
+							if(salida.success){
+								console.log(" success aqui ");
+								$("#result").addClass('text-success')
+								$("#result").text(salida.success);
+							}
+							// $('.result').removeClass('text-info').removeClass('text-danger').addClass('text-success');
+							
+							// setTimeout(function(){// wait for 5 secs(2)
+							//     location.reload(); // then reload the page.(3)
+							// }, 4000); 
+							
+							
+						},
+					});
+				}
+				
+			});
+
+
+
+		});
+    </script>
 </html>
 </section>
 
@@ -466,18 +535,32 @@ $colcc='#E0F8E6';
                 </div>
             </div>
         </div>
-    </div>
+	</div>
+	
+	<div class="modal fade" id="miModal" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span>
+						<span class="sr-only">Cerrar</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel"> Info </h4>
+				</div>
+				
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<div id="result" > </div>
+				</div>
+				
+				<!-- Modal Footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+    
 
-    <script type="text/javascript">
-        function loadModalDaryza(daryza_id){
-            console.log(daryza_id);
-            $('.modal-body').load('daryzaModal.php?indice='+daryza_id,function(){
-                $('#daryzaModal').modal({show:true});
-            });
-        }
-    </script>
-    <script type="text/javascript">
-        // $('#example2').dataTable({
-        //   "bPaginate": false, 
-        // })
-    </script>
