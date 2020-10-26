@@ -60,7 +60,7 @@ while($row = mysql_fetch_array($result)) {
                     </table>
                    
                     <div>
-                        <input class="btn btn-primary putll-right" type="button" id="guardarReprog" href="javascript:;" 
+                        <input class="btn btn-primary pull-right" type="button" id="guardarReprog" href="javascript:;" 
                         onclick="reprogramarPedido($('#fechaNueva').attr('value'), $('#placaReprog').attr('value'), <?php echo $indice_ ?>);
                         return false;" value="Reprogramar"/>
                     
@@ -130,14 +130,56 @@ while($row = mysql_fetch_array($result)) {
                         }, 4000); 
                         
                     },
-                    error: function(response){
-                        $('.result').text( response);
+                    error: function(xhr, textStatus, errorThrown) { 
+                        // if (textStatus == 'timeout') { 
+                        //     $('.result').text( "Error : Timeout for this call!");
+                        //     $('.result').removeClass('text-info').removeClass('text-success').addClass('text-danger');
+                        // }
+
                         $('.result').removeClass('text-info').removeClass('text-success').addClass('text-danger');
 
+                        if (jqXHR.status === 0) {
 
-                    }
+                        // alert('Not connect: Verify Network.');
+                            $('.result').text( 'Not connect: Verify Network.');
+
+                        } else if (jqXHR.status == 404) {
+
+                        // alert('Requested page not found [404]');
+                            $('.result').text( 'Requested page not found [404]');
+
+                        } else if (jqXHR.status == 500) {
+
+                        // alert('Internal Server Error [500].');
+                            $('.result').text('Internal Server Error [500].');
+
+                        } else if (textStatus === 'parsererror') {
+
+                        // alert('Requested JSON parse failed.');
+                            $('.result').text( 'Requested JSON parse failed.');
+
+                        } else if (textStatus === 'timeout') {
+
+                        // alert('Time out error.');
+                            $('.result').text('Time out error.');
+
+                        } else if (textStatus === 'abort') {
+
+                        // alert('Ajax request aborted.');
+                            $('.result').text( 'Ajax request aborted.');
+
+                        } else {
+
+                        // alert('Uncaught Error: ' + jqXHR.responseText);
+                            $('.result').text( 'Uncaught Error: ' + jqXHR.responseText);
+
+                        }
+
+
+                    },
+
                 }).fail(function(jqXHR, textStatus, errorThrown){
-                    $('.result').text(errorThrown); 
+                    $('.result').text('Fail: ' + errorThrown); 
                 });
             }   
 

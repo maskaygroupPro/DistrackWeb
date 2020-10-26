@@ -15,6 +15,7 @@
     else
     {
         echo "Algunos datos estan vacios.";
+        return;
     }
     // echo "CALL intralot.ReprogramarPedidos('". $placa ."','" . $fecha . "','" . $indice . "')"; // respondiendo la solicitud ajax
     
@@ -26,7 +27,7 @@
 
     if($result === false){
         // echo "Pedido reprogramado! ".$result;
-        die( "Algo sucedio, no se realizaron cambios. ".mysql_error() . '::'.mysql_errno());
+        echo  "Algo sucedió, no se realizaron cambios - ".mysql_error() . '::'.mysql_errno();
     }
     else
         echo "Pedido reprogramado! ";
