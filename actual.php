@@ -41,6 +41,13 @@ $colcc='#E0F8E6';
 <?php
 $operacion='';
 $cmp='';
+if(isset($_SESSION['priv_filtro'])){
+    $priv_filtro = " and ".$_SESSION['priv_filtro']." ";
+    
+}
+else{
+    $priv_filtro = "";
+}
 if( ! empty($_POST)){
     $valor=$_POST['valor'];
     $vcampo=$_POST['selectedCampo'];
@@ -70,19 +77,19 @@ if( ! empty($_POST)){
                 $operacion=" and ".$cmp." like '%".$valor."%' ";    
     }
     #$cmps="p.numpedido,p.idpedido,p.documento,left(p.cliente,30),p.volumen,left(p.distcliente,20),p.estado,p.fecentrega,p.horentrega,left(p.localpedido,25),p.placa,p.latitud,p.longitud,p.ventanaini,p.ventanafin,p.fechaprog,p.peso,p.aux1,p.orden,p.aux3,p.aux1,left(p.dircliente,30),p.producto,p.observacion,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back";
-    $cmps="l.caso,p.detalle,p.codproducto, p.cliente, p.refcliente, p.distcliente, p.horentrega, p.estado, p.latitud,p.longitud,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back, p.documento,p.fot_foto";    
+    $cmps="l.caso, p.* ,p.indice as Id,e.col_text, e.col_back";    
     $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog";
     $cond="p.fechaprog=current_date";
-    $query = "select ".$cmps." from ".$tabl." where ".$cond.$operacion." order by p.placa,p.orden;";
+    $query = "select ".$cmps." from ".$tabl." where ".$cond.$operacion.$priv_filtro." order by p.placa,p.orden;";
     // var_dump($query);exit();
     $result = mysql_query($query);
 
 }else{
     #$cmps="p.numpedido,p.idpedido,p.documento,left(p.cliente,30),p.volumen,left(p.distcliente,20),p.estado,p.fecentrega,p.horentrega,left(p.localpedido,25),p.placa,p.latitud,p.longitud,p.ventanaini,p.ventanafin,p.fechaprog,p.peso,p.aux1,p.orden,p.aux3,p.aux1,left(p.dircliente,30),p.producto,p.observacion,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back";
-    $cmps="p.detalle,p.codproducto, p.cliente, p.refcliente, p.distcliente, p.horentrega, p.estado, p.latitud,p.longitud,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back, p.documento, p.fot_foto";
+    $cmps="p.* ,p.indice as Id,e.col_text, e.col_back";
     $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog";
     $cond="p.fechaprog=current_date";
-    $query = "select ".$cmps." from ".$tabl." where ".$cond." order by p.placa,p.orden ; ";
+    $query = "select ".$cmps." from ".$tabl." where ".$cond.$priv_filtro." order by p.placa,p.orden ; ";
     $result = mysql_query($query);
 }
 #echo $query;
@@ -266,6 +273,9 @@ while($row = mysql_fetch_array($result)) {
 </td>
                     </form>
 					
+                    <!-- <pre>
+                    <?php print_r($_SESSION); ?>
+                    </pre> -->
 				</div>
 			</div>
 		</div>
