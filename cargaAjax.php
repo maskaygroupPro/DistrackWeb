@@ -56,6 +56,7 @@
                 //$num=$num+1;
                 //  echo $emapData[1];
                 //  echo "";
+                
                 if($cont){
                     $cont=false;
                     // TODO: REVISAR PROCEDIMIENTO DE LA VARIABLE fechaprog, (1968)/Typo
@@ -199,19 +200,25 @@
     //CARGAR CONSUMIBLES
     if(isset($_POST["Import2"]))
     {
+        echo "<script>console.log('consumiblesss' );</script>";
         $filename=$_FILES["file"]["tmp_name"];
         if($_FILES["file"]["size"] > 0)
         {
+            echo "<script>console.log('hay data' );</script>";
             $file = fopen($filename, "r");
             $emapData = fgetcsv($file, 10000, ",");
             $flagAux = true;
             $parte2 = "";
-            
+            $contador = 0;
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
-                $codeReparto_ = $emapData[1].".".date("ymd", strtotime($emapData[0]));
-                $fechaProg_ = $emapData[0];
-                $terminal_ = $emapData[1];
+                echo "<script>console.log('$contador' );</script>";
+                $formato = date("ymd", strtotime($emapData[1]));
+                echo "<script>console.log('$formato' );</script>";
+                $contador = $contador+1;
+                $codeReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
+                $fechaProg_ = $emapData[1];
+                $terminal_ = $emapData[0];
                 $nombre_ = "";
                 $placa_ = "";
                 $queryAux = "SELECT d.cliente, d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
@@ -243,6 +250,7 @@
 
             }
             $sql = "INSERT into $parte1 values $parte2 ";
+            echo "<script>console.log('$sql' );</script>";
             $resultado1 = mysql_query($sql);
             if($resultado1){
                 $result['success'] = "Pedidos guardados  exitosamente.";
@@ -287,8 +295,8 @@
             
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
-                $fechaProg_ = $emapData[0];
-                $terminal_ = $emapData[1];
+                $fechaProg_ = $emapData[1];
+                $terminal_ = $emapData[0];
                 $codigo_ = $emapData[2];
                 $cantidad_ = $emapData[3];
                 $descripcion_ = $emapData[4];
@@ -303,7 +311,7 @@
                     $placa_ =  $row["placa"];
                 }
 
-                $codReparto_ = $emapData[1].".".date("ymd", strtotime($emapData[0]));
+                $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
                 
                 $parte1 = "intralot.prg_logisticos(terminal,nombre,cantidad,descripcion,caso,fechaprog,placa,codreparto)"; 
                 //$parte2 = "('$terminal_','$nombre_','$cantidad_','$descripcion_','$caso_','$fechaProg_','$placa_','$codReparto_')";
@@ -370,8 +378,8 @@
             
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
-                $fechaProg_ = $emapData[0];
-                $terminal_ = $emapData[1];
+                $fechaProg_ = $emapData[1];
+                $terminal_ = $emapData[0];
                 $cod_juego_ = $emapData[2];
                 $cant_libro_ = $emapData[3];
                 $cant_ticket_ = $emapData[4];
@@ -380,7 +388,7 @@
                 $descripcion_ = $emapData[7];
                 $orden_ = $emapData[8];
 
-                $codReparto_ = $emapData[1].".".date("ymd", strtotime($emapData[0]));
+                $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
                 $nombre_ = "";
                 $dato_ = $terminal_."-".$orden_;
 

@@ -80,22 +80,22 @@ if( ! empty($_POST)){
                     $cmp="p.estado";
                     break;
                 case 'Caso':
-                    $cmp="p.caso";
+                    $cmp="l.caso";
                     break;
     }
     if(!empty($vcampo) && !empty($valor)){
             $operacion=" and ".$cmp." like '%".$valor."%' ";    
     }
     #$cmps="p.numpedido,p.idpedido,p.documento,left(p.cliente,30),p.volumen,left(p.distcliente,15),p.estado,p.fecentrega,p.horentrega,left(p.localpedido,25),p.placa,p.latitud,p.longitud,p.ventanaini,p.ventanafin,p.fechaprog,p.peso,p.aux1,p.orden,p.aux3,p.aux1,left(p.dircliente,30),left(p.refcliente,25),p.observacion,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back";
-    $cmps="p.* ,p.indice as Id ,e.col_text, e.col_back ";
-    $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado";
+    $cmps="l.caso as caso_real,p.* ,p.indice as Id ,e.col_text, e.col_back ";
+    $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog";
     $query = "select ".$cmps." from ".$tabl." where p.fechaprog between '".$vdesde."' and '".$vhasta."'".$operacion.$priv_filtro." order by p.fechaprog desc,p.placa,p.orden;";
     echo '<script>console.log("Filtro: ' . $query . ' );</script>';
     $result = mysql_query($query);
 }else{
     echo "<script>console.log('Debug Objects: " . "VACIO000 POR DEFECTO" . "' );</script>";
-    $cmps="p.*, p.indice as Id,e.col_text, e.col_back ";
-    $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado";
+    $cmps="l.caso as caso_real,p.*, p.indice as Id,e.col_text, e.col_back ";
+    $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog";
     $cond="p.fechaprog=current_date";
     $query = "select ".$cmps." from ".$tabl." where ".$cond.$priv_filtro." order by p.fechaprog desc, p.placa,p.orden ; ";
     // echo "<script>console.log('Filtro: " . $query . "' );</script>";
@@ -230,7 +230,7 @@ while($row = mysql_fetch_array($result)) {
                                             <td class="center" align="center"><?=$value['codproducto']?></td> 
                                             <td class="center"><?=$value['cliente']?></td> 
                                             <td class="center"><?=$value['detalle']?></td> 
-                                            <td class="center"><?=$value['caso']?></td> 
+                                            <td class="center"><?=$value['caso_real']?></td> 
                                             <td class="center"><?=$value['refcliente']?></td> 
                                             <td class="center"><?=$value['distcliente']?></td> 
                                             <td class="center"><?=$value['horentrega']?></td> 

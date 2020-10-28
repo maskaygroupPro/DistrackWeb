@@ -208,22 +208,23 @@ while($row = mysql_fetch_array($result)) {
 } else{
 	
 	$tabla.="<tr>";
-$tabla.="<td bgcolor=blue><b><font color=white>Ord</b></td>";//1
-$tabla.="<td bgcolor=blue><b><font color=white>Terminal</b></td>";//4
-$tabla.="<td bgcolor=blue><b><font color=white>Nombre</b></td>";//6
-$tabla.="<td bgcolor=blue><b><font color=white>Distrito</b></td>";//18
-$tabla.="<td bgcolor=blue><b><font color=white>Zona</b></td>";//9
-$tabla.="<td bgcolor=blue><b><font color=white>Direccion</b></td>";//12
-$tabla.="<td bgcolor=blue><b><font color=white>Tipo de Reparto</b></td>";//10
-$tabla.="<td bgcolor=blue><b><font color=white>Fecha Entrega</b></td>";//2
-$tabla.="<td bgcolor=blue><b><font color=white>Hora</b></td>";//3
-$tabla.="<td bgcolor=blue><b><font color=white>Estado</b></td>";//5
-$tabla.="<td bgcolor=blue><b><font color=white>Placa</b></td>";//14
-$tabla.="<td bgcolor=blue><b><font color=white>N° guia</b></td>";//16
-$tabla.="<td bgcolor=blue><b><font color=white>Fecha Reprogramada</b></td>";//16
-$tabla.="<td bgcolor=blue></td>";//15
+	$tabla.="<td bgcolor=blue></td>";
+	$tabla.="<td bgcolor=blue><b><font color=white>Ord</b></td>";//1
+	$tabla.="<td bgcolor=blue><b><font color=white>Terminal</b></td>";//4
+	$tabla.="<td bgcolor=blue><b><font color=white>Nombre</b></td>";//6
+	$tabla.="<td bgcolor=blue><b><font color=white>Distrito</b></td>";//18
+	$tabla.="<td bgcolor=blue><b><font color=white>Zona</b></td>";//9
+	$tabla.="<td bgcolor=blue><b><font color=white>Direccion</b></td>";//12
+	$tabla.="<td bgcolor=blue><b><font color=white>Tipo de Reparto</b></td>";//10
+	$tabla.="<td bgcolor=blue><b><font color=white>Fecha Entrega</b></td>";//2
+	$tabla.="<td bgcolor=blue><b><font color=white>Hora</b></td>";//3
+	$tabla.="<td bgcolor=blue><b><font color=white>Estado</b></td>";//5
+	$tabla.="<td bgcolor=blue><b><font color=white>Placa</b></td>";//14
+	$tabla.="<td bgcolor=blue><b><font color=white>N° guia</b></td>";//16
+	$tabla.="<td bgcolor=blue><b><font color=white>Fecha Reprogramada</b></td>";//16
+	$tabla.="<td bgcolor=blue></td>";//15
 
-$tabla.="</tr>";
+	$tabla.="</tr>";
 
 	
 	$query="call intralot.ObtenerReportePedidos(curdate(),curdate())";

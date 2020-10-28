@@ -250,15 +250,18 @@ $colcc='#E0F8E6';
 							console.log("respuestaa: " , response);
 							// alert(response)
 							let salida = jQuery.parseJSON(response);
-							if(salida.error){
-								console.log("error aqui: ");
-								$("#result").addClass('text-danger')
-								$("#result").text(salida.error);
-							}
+							
 							if(salida.success){
 								console.log(" success aqui ");
 								$("#result").addClass('text-success')
 								$("#result").text(salida.success);
+							}
+							if(salida.error){
+								console.log("error aqui: ");
+								$("#result").addClass('text-danger')
+								$("#result").text(salida.error);
+							}else{
+								$("#result").text(salida.error);
 							}
 							// $('.result').removeClass('text-info').removeClass('text-danger').addClass('text-success');
 							
