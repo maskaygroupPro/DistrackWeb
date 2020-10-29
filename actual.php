@@ -258,9 +258,10 @@ while($row = mysql_fetch_array($result)) {
                                                     ?>
                                                 </td>
                                                 <td class="text-center">
+                                                    <!-- Solo se muestra la interfaz si estas en Ruta y eres Admn  -->
                                                     <?php 
                                                     
-                                                        if($value['estado'] == "En Ruta"){
+                                                        if($value['estado'] == "En Ruta" and $_SESSION['priv_filtro'] == 1){
                                                     ?>
                                                         <a  style="color: #1a1919;" href="javascript:loadModalReprogramar(<?=$value['Id']?>);"><i class="fas fa-history"></i></a>
                                                     <?php
