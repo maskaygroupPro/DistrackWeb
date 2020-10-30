@@ -76,12 +76,12 @@ while($row = mysql_fetch_array($result)) {
                         <div class="col-sm-7">
                             
                             <?php 
-                            $qlogs="select cantidad, descripcion from intralot.prg_logisticos where terminal='".$value['numpedido']."' and fechaprog='".$value['fechaprog']."';";
+                            $qlogs="select cantidad, descripcion, caso from intralot.prg_logisticos where terminal='".$value['numpedido']."' and fechaprog='".$value['fechaprog']."';";
                             #echo $qcons;
                             $rlogs=mysql_query($qlogs);
                             $dlogs="";
                             while ($alogs =mysql_fetch_assoc($rlogs)){                                     
-                                $dlogs.=$alogs['cantidad']." ".$alogs['descripcion']."<br>";
+                                $dlogs.=$alogs['cantidad']." ".$alogs['descripcion']." #Caso:".$alogs['caso']."<br>";
                             }
                             echo "<h4>Logisticos</h4>".$dlogs;
                             $qinst="select cant_ticket, descripcion from intralot.prg_instantaneas where fechaprog='".$value['fechaprog']."' and left(codreparto,6)='".$value['numpedido']."';";

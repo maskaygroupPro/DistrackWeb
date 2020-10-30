@@ -49,6 +49,7 @@
             $parte22 = "";
             //echo "<script>console.log('hay data' );</script>";
             $num=0;
+            $fecha_Sincronizar = "";
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
                 //echo "<script>console.log('-num-',$num );</script>";
@@ -59,19 +60,20 @@
                 
                 if($cont){
                     $cont=false;
+                    $fecha_Sincronizar = $emapData[1];
                     // TODO: REVISAR PROCEDIMIENTO DE LA VARIABLE fechaprog, (1968)/Typo
-                    $query9="call intralot.ProgramarMateriales('".$emapData[1]."')";
-                    $resultAux=mysql_query($query9) ;  //die muestra el error y sale
-                    if($resultAux){
+                    //$query9="call intralot.ProgramarMateriales('".$emapData[1]."')";
+                    //$resultAux=mysql_query($query9) ;  //die muestra el error y sale
+                    //if($resultAux){
                         // echo "Consulta Ok Programar MAteriales";
                         
-                    }
-                    else {
-                        $result['error'] =  mysql_error();
-                        echo json_encode($result); 
-                        return;
+                    //}
+                    //else {
+                    //    $result['error'] =  mysql_error();
+                    //    echo json_encode($result); 
+                    //    return;
 
-                    }
+                    //}
                     //call intralot.ProgramarMateriales($emapData[1]);
                 }
                 
@@ -166,7 +168,20 @@
             $sql2 = "INSERT into $parte11 values $parte22";
             $resultado2 = mysql_query($sql2);
             if($resultado1 && $resultado2){
-                $result['success'] = "Pedidos guardados  exitosamente.";
+                $query9="call intralot.ProgramarMateriales('".$fecha_Sincronizar."')";
+                $resultAux=mysql_query($query9) ;  //die muestra el error y sale
+                if($resultAux){
+                    // echo "Consulta Ok Programar MAteriales";
+                    $result['success'] = "Pedidos guardados  exitosamente.";    
+                }
+                else {
+                    //$result['error'] =  mysql_error();
+                    $result['error'] = "ERROR- Se cargo los pedidos, pero no se sincronizo con los materiales. Consultar a alguien de mantenimiento.";
+                    echo json_encode($result); 
+                    return;
+
+                }
+                
                 // echo "todo correcto";
                 
             }
