@@ -150,7 +150,8 @@ sum(if(p.estado='Entregado' or p.estado='Entregado',1,0)),
 sum(if(p.estado='Parcial',1,0)),
 sum(if(p.estado='No Entregado',1,0)), 
 sum(if(p.estado='Llegada' or p.estado='Inicio' or p.estado='Retorno',1,0)),
-sum(if(p.estado='En Ruta',1,0))";
+sum(if(p.estado='En Ruta',1,0)),
+sum(if(p.estado='ReProgramado',1,0))";
 $from="intralot.pedidos p";
 $cond="date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' ";
 $query="select ".$cmps." from ".$from."  where ".$cond." group by p.refcliente order by p.placa;";
@@ -164,14 +165,16 @@ if (!$result) {
 $NO=0;
 while ($row = mysql_fetch_array($result)) {
   $NO++;
-  $CADE_D[$NO]      = "['".$row[0]."',".$row[1].",".$row[2].",".$row[3].",".$row[4].",".$row[5]."],";
+  // Datos del grafico de barras
+  $CADE_D[$NO]      = "['".$row[0]."',".$row[1].",".$row[2].",".$row[3].",".$row[4].",".$row[5].",".$row[6]."],";
 }
 $cmps="
 sum(if(p.estado='Entregado' or p.estado='Entregado',1,0)), 
 sum(if(p.estado='Parcial',1,0)),
 sum(if(p.estado='No Entregado',1,0)), 
 sum(if(p.estado='Llegada' or p.estado='Inicio' or p.estado='Retorno',1,0)),
-sum(if(p.estado='En Ruta',1,0))
+sum(if(p.estado='En Ruta',1,0)),
+sum(if(p.estado='ReProgramado',1,0))
 ";
 $from="intralot.pedidos p";
 $cond="date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' ";
@@ -184,7 +187,8 @@ if (!$result2) {
   echo "$num_rows Rows\n";
 }
 while ($row = mysql_fetch_array($result2)) {
-  $CADE_DO     = "['Entregado',".$row[0]."],['Parcial',".$row[1]."],['No Entregado',".$row[2]."],['Proceso',".$row[3]."],['En Ruta',".$row[4]."]";
+  // Datos del grafico de dona
+  $CADE_DO     = "['Entregado',".$row[0]."],['Parcial',".$row[1]."],['No Entregado',".$row[2]."],['Proceso',".$row[3]."],['En Ruta',".$row[4]."],['Reprogramado',".$row[5]."]";
 }
 
 $qest="select estado , count(estado) cant from intralot.pedidos where (fechaprog  between '".$vdesde."' and '".$vhasta."')  group by estado;";
@@ -213,7 +217,7 @@ $rzon=mysql_query($qzon);
           height: 200 ,
           legend: { position: "top" },
           chartArea: {height: '90%'},          
-          colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5'],  
+          colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5', '#f97a7a'],  
           hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
           vAxis: {textStyle: {color: '#1a237e', fontSize: '10', bold: true }},            
         };
@@ -236,6 +240,7 @@ $rzon=mysql_query($qzon);
         data_docs.addColumn('number', 'No Entregado');
         data_docs.addColumn('number', 'Proceso');
         data_docs.addColumn('number', 'En Ruta');      
+        data_docs.addColumn('number', 'Reprogramado');      
         data_docs.addRows([
         <?php
          for ($i=1;$i<=$NO;$i++){
@@ -250,7 +255,7 @@ $rzon=mysql_query($qzon);
           legend: { position: 'top', maxLines: 2, textStyle: {color: 'black', fontSize: 9}},
           bar: { groupWidth: '70%' },
           isStacked: true,
-          colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5'],    
+          colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5','#f97a7a'],    
           
        };
       var chart_docs = new google.visualization.ColumnChart(
@@ -270,9 +275,9 @@ $rzon=mysql_query($qzon);
       </tr>
       <tr>
         <td><div id="donut_docs" style="width: 300px; height: 200px;"></div></td>
-        <td><div id="d_docs" style="width: 800px; height: 250px;"></div></td>
+        <td><div id="d_docs" style="width: 90%; height: 55vh;"></div></td>
       </tr>
-      <tr>
+      <tr style="font-weight: bold; text-transform: uppercase;">
         <td align='center'>Total</td>
         <td align='center'>Por Zonas</td>
       </tr>
@@ -280,12 +285,12 @@ $rzon=mysql_query($qzon);
         <td><center>
           <table class="table" width="60%" align="center">
             <th>
-              <tr><td align="center">Estado</td><td align="center">Total</td></tr>
+              <tr style="font-weight: bold;"><td align="left">Estado</td><td align="center">Total</td></tr>
             </th>
             <?php
             while ($row = mysql_fetch_array($rest)) {
               echo "<tr>";
-              echo "<td align='left' bgcolor>".$row[0]."</td><td align='right'>".$row[1]."</td>";
+              echo "<td align='left' bgcolor>".$row[0]."</td><td align='center'>".$row[1]."</td>";
               echo "</tr>";
             }
             ?>
@@ -300,7 +305,7 @@ $rzon=mysql_query($qzon);
             <?php
             while ($row = mysql_fetch_array($rzon)) {
               echo "<tr>";
-              echo "<td align='left' bgcolor>"."</td><td align='right'>".$row[1]."</td><td align='right'>".$row[2]."</td><td align='right'>".$row[3]."</td><td align='right'>".$row[4]."</td><td align='right'>".$row[5]."</td><td align='right'>".$row[6]."</td>";
+              echo "<td align='center' bgcolor>"."</td><td align='center'>".$row[1]."</td><td align='center'>".$row[2]."</td><td align='center'>".$row[3]."</td><td align='center'>".$row[4]."</td><td align='center'>".$row[5]."</td><td align='center'>".$row[6]."</td>";
               echo "</tr>";
             }
             ?>
