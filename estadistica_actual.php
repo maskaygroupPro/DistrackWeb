@@ -73,7 +73,7 @@ if(!empty($_POST)){
                                                                   <span class="caret"></span>
                                                                 </a>
                                                                 <ul class="dropdown-menu">
-                                                                  <li><a href="estadistica_actual.php">Por placa</a></li>
+                                                                  <li><a href="estadistica_actual.php">Por Zona</a></li>
                                                                   <li><a href="est_his.php">Por periodo</a></li>
                                                                 </ul>
                                                               </div>
