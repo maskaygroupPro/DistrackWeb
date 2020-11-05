@@ -268,6 +268,7 @@ while($row = mysql_fetch_array($result)) {
                                             
                                             <th width="10%"><center>Zona</center></th>
                                             <th width="14%"><center>Distrito</center></th>
+                                            <th width="14%"><center>Fecha Prog.</center></th>
                                             <th width="10%"><center>Horas</center></th>
                                             <th width="10%"><center>Estado</center></th>
                                             <th width="10%"></th>
@@ -287,6 +288,7 @@ while($row = mysql_fetch_array($result)) {
                                             
                                             <td class="center"><?=$value['refcliente']?></td> 
                                             <td class="center"><?=$value['distcliente']?></td> 
+                                            <td class="center"><?=$value['fechaprog']?></td> 
                                             <td class="center"><?=$value['horentrega']?></td> 
                                             <td class="center" align="center" style="background-color:<?=$value['col_back']?>;color:<?=$value['col_text'];?> !important;"><?=$value['estado']?></td> 
                                                 <form action="" id="estadoAjax">
