@@ -276,6 +276,9 @@ $colcc='#E0F8E6';
 				
 			});
 
+			
+
+
 			$("#formCargaConsumibles").on("submit", function(e){
 				e.preventDefault();
 				$('.result').removeClass('text-danger').removeClass('text-success').text('');

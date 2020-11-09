@@ -6,7 +6,7 @@
     }
 
     require_once "include/conexion.php";
-
+    ini_set("max_execution_time",0);
 
     // echo "Post ";
     // var_dump($_POST);
@@ -40,7 +40,7 @@
         if($_FILES["file"]["size"] > 0)
         {
             // echo "pedido recibido";
-            echo "";
+            //echo "";
             $file = fopen($filename, "r");
             $emapData = fgetcsv($file, 10000, ",");
             $cont = true;
@@ -77,7 +77,7 @@
                     //call intralot.ProgramarMateriales($emapData[1]);
                 }
                 
-                $numPedido_ = $emapData[0];
+                $numPedido_ = trim($emapData[0]);
                 $fechaProg_ = $emapData[1];
                 $idPedido_ = $numPedido_ .".". date("ymd", strtotime($fechaProg_));
                 $localPedido_ = "";
@@ -109,8 +109,8 @@
                 
                 
                 
-                $codProducto_ = $emapData[0];
-                $placa_ = $emapData[2];
+                $codProducto_ = trim($emapData[0]);
+                $placa_ = trim($emapData[2]);
                 $orden_ = $emapData[3];
                 $documento_ = $numPedido_ .".". date("ymd", strtotime($fechaProg_));
                 $estado_ = "En Ruta";
@@ -209,17 +209,97 @@
 
         
     }
+//CONSUMIBLES
+    if(isset($_POST["Import2"]))
+    {
+        $filename=$_FILES["file"]["tmp_name"];
+        
+        if($_FILES["file"]["size"] > 0)
+        {
+            
+            $file = fopen($filename, "r");
+            
+            $emapData = fgetcsv($file, 10000, ",");
+            $flagAux = true;
+            $parte2 = "";
+            
+            while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+            {
+                
+                $terminal_ = trim($emapData[0]);
+                $fechaProg_ = $emapData[1];
+                $item3926_ = $emapData[2];
+                $item4788_ = $emapData[3];
+                $item5667_ = $emapData[4];
+                $item5669_ = $emapData[5];
+                $item5668_ = $emapData[6];
+                $item0915_ = $emapData[7];
+                $item0861_ = $emapData[8];
+                $item2587_ = $emapData[9];
+            
+                $nombre_ = "";
+                $placa_ = "";
+                
+                $queryAux = "SELECT d.cliente, d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
+                $ress = mysql_query($queryAux);
+                if($row = mysql_fetch_array($ress)){
+                    $nombre_ =  $row["cliente"];
+                    $placa_ =  trim($row["placa"]);
+                }
+                $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
+                
+                
+                $parte1 = "intralot.prg_consumibles(codreparto,fechaprog,terminal,nombre,item3926,item4788,item5667,item5669,item5668,item0915,item0861,item2587,placa)"; 
+//                $parte2 = "('$codeReparto_','$fechaProg_','$terminal_','$nombre_','$item3926_','$item4788_','$item5667_','$item5669_','$item5668_','$item0915_','$item0861_','$item2587_','$placa_')";
+                if($flagAux){
+                    $flagAux=false;
+                    $parte2 .= "('$codReparto_','$fechaProg_','$terminal_','$nombre_','$item3926_','$item4788_','$item5667_','$item5669_','$item5668_','$item0915_','$item0861_','$item2587_','$placa_')";                  
+                }else{
+                    $parte2 .= ", ('$codReparto_','$fechaProg_','$terminal_','$nombre_','$item3926_','$item4788_','$item5667_','$item5669_','$item5668_','$item0915_','$item0861_','$item2587_','$placa_')";                  
+                }
+                
 
+            }
+            $sql = "INSERT into $parte1 values $parte2 ";
+            $resultado1 = mysql_query($sql);
+
+            if($resultado1){
+                $result['success'] = "Pedidos guardados  exitosamente.";
+                // echo "todo correcto";
+            }
+            else{
+                $result['error'] = "ocurio un error en la terminal";
+                // echo json_encode($result); 
+                // break;
+            }
+
+
+            fclose($file);
+
+            echo json_encode($result); 
+            //echo 'Se Cargo correctamente logisticos';
+            //header('Location: carga.php');
+        }
+        else{
+            $result['error'] = 'Pedidos: Formato no aceptado, solo .CSV'; 
+
+            echo json_encode($result);
+            //echo 'Consumible: Formato no aceptado, solo .CSV';  
+        }
+            
+            
+
+    }
 
 
     //CARGAR CONSUMIBLES
-    if(isset($_POST["Import2"]))
+    if(isset($_POST["Import9"]))
     {
-        echo "<script>console.log('consumiblesss' );</script>";
+//        echo "<script>console.log('consumiblesss' );</script>";
         $filename=$_FILES["file"]["tmp_name"];
         if($_FILES["file"]["size"] > 0)
         {
-            echo "<script>console.log('hay data' );</script>";
+            //echo "<script>console.log('hay data' );</script>";
             $file = fopen($filename, "r");
             $emapData = fgetcsv($file, 10000, ",");
             $flagAux = true;
@@ -227,20 +307,20 @@
             $contador = 0;
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
-                echo "<script>console.log('$contador' );</script>";
+  //              echo "<script>console.log('$contador' );</script>";
                 $formato = date("ymd", strtotime($emapData[1]));
-                echo "<script>console.log('$formato' );</script>";
+    //            echo "<script>console.log('$formato' );</script>";
                 $contador = $contador+1;
                 $codeReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
                 $fechaProg_ = $emapData[1];
-                $terminal_ = $emapData[0];
+                $terminal_ = trim($emapData[0]);
                 $nombre_ = "";
                 $placa_ = "";
                 $queryAux = "SELECT d.cliente, d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
                 $ress = mysql_query($queryAux);
                 if($row = mysql_fetch_array($ress)){
                     $nombre_ =  $row["cliente"];
-                    $placa_ =  $row["placa"];
+                    $placa_ =  trim($row["placa"]);
                 }
                 $item3926_ = $emapData[2];
                 $item4788_ = $emapData[3];
@@ -264,9 +344,11 @@
 //                mysql_query($sql);
 
             }
+            //echo "<script>console.log('NUM: ','$contador' );</script>";
             $sql = "INSERT into $parte1 values $parte2 ";
-            echo "<script>console.log('$sql' );</script>";
+            //echo "<script>console.log('$sql' );</script>";
             $resultado1 = mysql_query($sql);
+            //echo "<script>console.log('ressss: ','$resultado1' );</script>";
             if($resultado1){
                 $result['success'] = "Pedidos guardados  exitosamente.";
                 // echo "todo correcto";
@@ -311,7 +393,7 @@
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
                 $fechaProg_ = $emapData[1];
-                $terminal_ = $emapData[0];
+                $terminal_ = trim($emapData[0]);
                 $codigo_ = $emapData[2];
                 $cantidad_ = $emapData[3];
                 $descripcion_ = $emapData[4];
@@ -323,7 +405,7 @@
                 $queryAux = "SELECT d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
                 $ress = mysql_query($queryAux);
                 if($row = mysql_fetch_array($ress)){
-                    $placa_ =  $row["placa"];
+                    $placa_ =  trim($row["placa"]);
                 }
 
                 $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
@@ -394,7 +476,7 @@
             while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
             {
                 $fechaProg_ = $emapData[1];
-                $terminal_ = $emapData[0];
+                $terminal_ = trim($emapData[0]);
                 $cod_juego_ = $emapData[2];
                 $cant_libro_ = $emapData[3];
                 $cant_ticket_ = $emapData[4];
@@ -410,8 +492,9 @@
                 $placa_ = "";
                 $queryAux = "SELECT d.placa  FROM intralot.pedidos as d WHERE d.numpedido = "."'".$terminal_."' and d.fechaprog='".$fechaProg_."'";
                 $ress = mysql_query($queryAux);
+                //echo "<script>console.log('ressss TIME: ','$ress' );</script>";
                 if($row = mysql_fetch_array($ress)){
-                    $placa_ =  $row["placa"];
+                    $placa_ =  trim($row["placa"]);
                 }
 
                 
@@ -429,6 +512,7 @@
                 //mysql_query($sql);
 
             }
+       //     echo "<script>console.log('INSERRRTTTT' );</script>";
             $sql = "INSERT into $parte1 values $parte2 ";
             $resultado1 = mysql_query($sql);
 

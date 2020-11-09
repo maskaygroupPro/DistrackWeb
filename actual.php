@@ -82,17 +82,31 @@ if( ! empty($_POST)){
     }
     if($cmp == "l.descripcion"){
         #$cmps="p.numpedido,p.idpedido,p.documento,left(p.cliente,30),p.volumen,left(p.distcliente,20),p.estado,p.fecentrega,p.horentrega,left(p.localpedido,25),p.placa,p.latitud,p.longitud,p.ventanaini,p.ventanafin,p.fechaprog,p.peso,p.aux1,p.orden,p.aux3,p.aux1,left(p.dircliente,30),p.producto,p.observacion,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back";
-        $cmps="l.caso as caso_real, p.* ,p.indice as Id,e.col_text, e.col_back"; 
+        //$cmps="l.caso as caso_real, p.* ,p.indice as Id,e.col_text, e.col_back"; 
         
-        $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog";
+        //$tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog";
         
-        $cond="p.fechaprog=current_date";
-        $query="";
-        $query = "select ".$cmps." from ".$tabl." where ".$cond.$operacion.$priv_filtro." order by p.placa,p.orden;";
+        //$cond="p.fechaprog=current_date";
+        //$query="";
+        //$query = "select ".$cmps." from ".$tabl." where ".$cond.$operacion.$priv_filtro." order by p.placa,p.orden;";
         //echo $query;
         
         // var_dump($query);exit();
-        $result = mysql_query($query);
+        //$result = mysql_query($query);
+
+        #$cmps="p.numpedido,p.idpedido,p.documento,left(p.cliente,30),p.volumen,left(p.distcliente,20),p.estado,p.fecentrega,p.horentrega,left(p.localpedido,25),p.placa,p.latitud,p.longitud,p.ventanaini,p.ventanafin,p.fechaprog,p.peso,p.aux1,p.orden,p.aux3,p.aux1,left(p.dircliente,30),p.producto,p.observacion,p.fot_foto,p.motivo,p.indice as Id,e.col_text, e.col_back";
+        $cmps="l.caso as caso_real, p.* ,p.indice as Id,e.col_text, e.col_back"; 
+        
+        $tabl="intralot.pedidos p inner join ddaryza.estados e on p.estado=e.estado left join intralot.prg_logisticos l on l.terminal=p.numpedido and l.fechaprog=p.fechaprog left join intralot.prg_instantaneas i on left(i.codreparto,6)=p.numpedido and i.fechaprog=p.fechaprog";
+        
+        $cond="p.fechaprog=current_date";
+        $query="";
+        $operacion=" and l.descripcion or i.descripcion like '%".$valor."%' ";    
+        $query = "select ".$cmps." from ".$tabl." where ".$cond.$operacion.$priv_filtro." order by p.placa,p.orden;";
+        echo $query;
+        
+        // var_dump($query);exit();
+        //$result = mysql_query($query);
 
 
     }else if($cmp == "l.caso"){
