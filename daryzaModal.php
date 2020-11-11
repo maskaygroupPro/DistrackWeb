@@ -1,6 +1,6 @@
 <?php
 require_once "include/conexion.php";
-$sql="select b.numpedido,b.idpedido,b.documento,left(b.cliente,30) as cliente,b.volumen,left(b.distcliente,15),b.estado,b.fecentrega,b.horentrega,
+$sql="select b.detalle,b.numpedido,b.idpedido,b.documento,left(b.cliente,30) as cliente,b.volumen,left(b.distcliente,15),b.estado,b.fecentrega,b.horentrega,
 left(b.localpedido,25) as localpedido,b.placa,b.latitud,b.longitud,b.ventanaini,b.ventanafin,b.fechaprog,b.peso,b.aux1,b.orden,b.aux3,b.aux1,
 left(b.dircliente,30) as direccion,left(b.refcliente,25) as refcliente,b.observacion,b.fot_foto,b.motivo,b.indice as Id from intralot.pedidos b
 where b.indice='".$_GET['indice']."' order by b.placa,b.orden;";
@@ -66,7 +66,7 @@ while($row = mysql_fetch_array($result)) {
 
 
 
-                            $qcons="select item3926, item4788, item5667, item5669, item5668, item0915, item0861, item2587 from intralot.prg_consumibles where terminal='".$value['numpedido']."' and fechaprog='".$value['fechaprog']."';";
+                            $qcons="select item3926, item4788, item5667, item5669, item5668, item0915, item0861, item2587 from intralot.prg_consumibles where terminal='".$value['numpedido']."' and fechaprog='".$value['fechaprog']."' and tipo_pedido='".$value['detalle']."' ;";
                             $rcons=mysql_query($qcons);
                             $acons=mysql_fetch_assoc($rcons);
                             $dcons=intval($acons['item3926'])." Rollos Termicos"."<br>".intval($acons['item4788'])." Lapiceros Pto.de la Suerte"."<br>".intval($acons['item5667'])." Cupones Te Apuesto PH"."<br>".intval($acons['item5669'])." Cupones Tinka PH"."<br>".intval($acons['item5668'])." Cupones Kabala PH"."<br>".intval($acons['item0915'])." Cupones Ganadiario"."<br>".intval($acons['item0861'])." Cupones Ganagol"."<br>".intval($acons['item2587'])."Cupones Kinelo";
@@ -76,7 +76,7 @@ while($row = mysql_fetch_array($result)) {
                         <div class="col-sm-7">
                             
                             <?php 
-                            $qlogs="select cantidad, descripcion, caso from intralot.prg_logisticos where terminal='".$value['numpedido']."' and fechaprog='".$value['fechaprog']."';";
+                            $qlogs="select cantidad, descripcion, caso from intralot.prg_logisticos where terminal='".$value['numpedido']."' and fechaprog='".$value['fechaprog']."' and tipo_pedido='".$value['detalle']."' ;";
                             #echo $qcons;
                             $rlogs=mysql_query($qlogs);
                             $dlogs="";
@@ -84,7 +84,7 @@ while($row = mysql_fetch_array($result)) {
                                 $dlogs.=$alogs['cantidad']." ".$alogs['descripcion']." #Caso:".$alogs['caso']."<br>";
                             }
                             echo "<h4>Logisticos</h4>".$dlogs;
-                            $qinst="select cant_ticket, descripcion from intralot.prg_instantaneas where fechaprog='".$value['fechaprog']."' and left(codreparto,6)='".$value['numpedido']."';";
+                            $qinst="select cant_ticket, descripcion from intralot.prg_instantaneas where fechaprog='".$value['fechaprog']."' and left(codreparto,6)='".$value['numpedido']."' and tipo_pedido='".$value['detalle']."' ;";
                             $rinst=mysql_query($qinst);
                             $dinst="";
                             while ($ainst =mysql_fetch_assoc($rinst)){                                     
