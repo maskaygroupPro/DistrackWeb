@@ -38,7 +38,7 @@ while($row = mysql_fetch_array($result)) {
                                 <?php foreach ($datos as $key => $value):
                                     $placa_ = $value['placa']; ?>
                                 
-                                    <tr><td>Ord</td><td><?=$value['orden']?></td><td>Placa</td><td><?=$value['placa']?></td></tr>
+                                    
                                     <tr><td>Pedido</td><td><?=$value['numpedido']?></td><td>Placa</td><td><?=$value['placa']?></td></tr>
                                     <tr><td>Estado</td><td><?=$value['estado']?></td><td>Fecha</td><td><?=$value['fechaprog']?></td></tr>
                                     
