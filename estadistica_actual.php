@@ -148,7 +148,7 @@ if(!empty($_POST)){
 $keys = ['zona', 'Entregado', 'Parcial', 'No entregado', 'Proceso', 'En Ruta', 'Reprogramado'];
 
 $cmps="p.refcliente, 
-sum(if(p.estado='Entregado' or p.estado='Entregado',1,0)), 
+sum(if(p.estado='Entregado',1,0)), 
 sum(if(p.estado='Parcial',1,0)),
 sum(if(p.estado='No Entregado',1,0)), 
 sum(if(p.estado='Llegada' or p.estado='Inicio' or p.estado='Retorno',1,0)),
@@ -175,7 +175,7 @@ while ($row = mysql_fetch_array($result)) {
 }
 // echo "<script> console.log('El no es', ". $NO . ") </script>";
 $cmps="
-sum(if(p.estado='Entregado' or p.estado='Entregado',1,0)), 
+sum(if(p.estado='Entregado',1,0)), 
 sum(if(p.estado='Parcial',1,0)),
 sum(if(p.estado='No Entregado',1,0)), 
 sum(if(p.estado='Llegada' or p.estado='Inicio' or p.estado='Retorno',1,0)),
@@ -383,7 +383,7 @@ $rzon=mysql_query($qzon);
         // console.log("TEST ====>")
         
         $('input:checkbox').on('click', function()  {  
-          console.log("change")
+          // console.log("change")
           var checked = [];
           $("input[name='zona[]']:checked").each(function () {
               checked.push($(this).val());
@@ -404,8 +404,8 @@ $rzon=mysql_query($qzon);
             dataType: 'json',
             // cache: false,
             success: function(response) {
-              console.log("respuesta")
-              console.log(response)
+              // console.log("respuesta")
+              // console.log(response)
 
               var arr = [];
               for (i in response){
@@ -426,8 +426,14 @@ $rzon=mysql_query($qzon);
                 }else $('.NoEntregado').addClass("ocultar");
                 if(response[i].Proceso != undefined){
                   tmp.push( response[i].Proceso);
-                  $('.Proceso').removeClass("ocultar") 
-                }else $('.Proceso').addClass("ocultar");
+                  $('.Inicio').removeClass("ocultar") 
+                  $('.Llegada').removeClass("ocultar") 
+                  $('.Retorno').removeClass("ocultar") 
+                }else {
+                  $('.Inicio').addClass("ocultar");
+                  $('.Llegada').addClass("ocultar") 
+                  $('.Retorno').addClass("ocultar") 
+                }
                 if(response[i].EnRuta != undefined){
                   tmp.push( response[i].EnRuta);
                   $('.EnRuta').removeClass("ocultar") 
@@ -448,9 +454,6 @@ $rzon=mysql_query($qzon);
               // if(checked.indexOf("Proceso") !== -1){
               //     console.log("Existe: "+checked.indexOf("Proceso"))
               // }
-
-              // checked.Entregado != undefined ? console.log(checked.Entregado) : console.log("vEEEEEEEEEEE");
-              
               google.setOnLoadCallback(drawChartv2());
               // console.log("======================================================")
               // Ocultar la tabla
@@ -469,7 +472,7 @@ $rzon=mysql_query($qzon);
                 data_docs.addRows(                  
                   result
                 );
-                console.log(result)
+                // console.log(result)
                 var options2 = {
                   hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
                   vAxis: {textStyle: {color: '#1a237e', fontSize: '18', bold: true }},
