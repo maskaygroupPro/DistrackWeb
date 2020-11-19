@@ -113,7 +113,7 @@ if(!empty($_POST)){
         <!-- chosen js -->
         <script src="js/chosen/chosen.jquery.min.js"></script>
 
-        <script src="js/dashboard.js"></script>
+        <!-- <script src="js/dashboard.js"></script> -->
         
     </body>
 </html>
@@ -145,6 +145,8 @@ if(!empty($_POST)){
 </form>
 
 <?php
+$keys = ['zona', 'Entregado', 'Parcial', 'No entregado', 'Proceso', 'En Ruta', 'Reprogramado'];
+
 $cmps="p.refcliente, 
 sum(if(p.estado='Entregado' or p.estado='Entregado',1,0)), 
 sum(if(p.estado='Parcial',1,0)),
@@ -166,8 +168,12 @@ $NO=0;
 while ($row = mysql_fetch_array($result)) {
   $NO++;
   // Datos del grafico de barras
-  $CADE_D[$NO]      = "['".$row[0]."',".$row[1].",".$row[2].",".$row[3].",".$row[4].",".$row[5].",".$row[6]."],";
+  $values = "['".$row[0]."',".$row[1].",".$row[2].",".$row[3].",".$row[4].",".$row[5].",".$row[6]."],";
+  $CADE_D[$NO]  =  $values;
+  $dataBarra[$NO] = array_combine($keys, array($row[0], $row[1], $row[2], $row[3], $row[4], $row[5], $row[6]));
+
 }
+// echo "<script> console.log('El no es', ". $NO . ") </script>";
 $cmps="
 sum(if(p.estado='Entregado' or p.estado='Entregado',1,0)), 
 sum(if(p.estado='Parcial',1,0)),
@@ -203,6 +209,8 @@ $rzon=mysql_query($qzon);
     <script type="text/javascript">
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChart1);
+      var chart_d ;
+
       function drawChart1() {
         var d_docs = google.visualization.arrayToDataTable([
           ['Estado', 'Cant.Docs'],
@@ -221,8 +229,7 @@ $rzon=mysql_query($qzon);
           hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
           vAxis: {textStyle: {color: '#1a237e', fontSize: '10', bold: true }},            
         };
-
-      var chart_d = new google.visualization.PieChart(document.getElementById('donut_docs'));
+      chart_d = new google.visualization.PieChart(document.getElementById('donut_docs'));
       chart_d.draw(d_docs, options);
 
       }
@@ -231,10 +238,11 @@ $rzon=mysql_query($qzon);
     <script type="text/javascript">
       google.load('visualization', '1', {packages: ['corechart']});
       google.setOnLoadCallback(drawChart);
+      var chart_docs;
 
       function drawChart() {    
         var data_docs = new google.visualization.DataTable();
-        data_docs.addColumn('string', 'Placa');
+        data_docs.addColumn('string', 'Zonas');
         data_docs.addColumn('number', 'Entregado');
         data_docs.addColumn('number', 'Parcial');
         data_docs.addColumn('number', 'No Entregado');
@@ -253,25 +261,63 @@ $rzon=mysql_query($qzon);
           hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
           vAxis: {textStyle: {color: '#1a237e', fontSize: '10', bold: true }},
           legend: { position: 'top', maxLines: 2, textStyle: {color: 'black', fontSize: 9}},
-          bar: { groupWidth: '70%' },
+          bar: { groupWidth: '80%' },
           isStacked: true,
           colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5','#f97a7a'],    
           
        };
-      var chart_docs = new google.visualization.ColumnChart(
-      document.getElementById('d_docs'));
+      chart_docs = new google.visualization.ColumnChart( document.getElementById('d_docs'));
       chart_docs.draw(data_docs, options2);
 
       }
     </script>
       
-    
+      
     
   </head>
   <body>
     <table align='center' width="95%">
       <tr>
-        <td  align='center' colspan='2' style="background-color:#DCEDF0"><h4>Estados General</h4></td>
+        <td  align='center' colspan='2' style="background-color:#DCEDF0"><h4>Estados General</h4>
+        <div id="zonas" class="zonas">
+            <div class="zona">
+                <label for="entregado">Entregado
+                    <input class="checkZona" type="checkbox" name="zona[]" value="Entregado" id="entregado" checked>
+                </label>
+            </div>
+            <div class="zona">
+                <label for="parcial">Parcial
+                    <input class="checkZona" type="checkbox" name="zona[]" value="Parcial" id="parcial" checked>
+                </label>
+            </div>
+            <div class="zona">
+                <label for="noEntregado">No-Entregado
+                    <input class="checkZona" type="checkbox" name="zona[]" value="No entregado" id="noEntregado" checked>
+                </label>
+            </div>
+            <div class="zona">
+                <label for="proceso">Proceso
+                    <input class="checkZona" type="checkbox" name="zona[]" value="Proceso" id="proceso" checked>
+                </label>
+            </div>
+            <div class="zona">
+                <label for="enRuta">En-Ruta
+                    <input class="checkZona" type="checkbox" name="zona[]" value="En Ruta" id="enRuta" checked>
+                </label>
+            </div>
+            <div class="zona">
+                <label for="Reprogramado">Reprogramado
+                    <input class="checkZona" type="checkbox" name="zona[]" value="Reprogramado" id="Reprogramado" checked>
+                </label>
+            </div>
+
+          </div>
+          </td>
+      </tr>
+      <tr>
+        <td>
+          
+        </td>
       </tr>
       <tr>
         <td><div id="donut_docs" style="width: 300px; height: 200px;"></div></td>
@@ -289,9 +335,12 @@ $rzon=mysql_query($qzon);
             </th>
             <?php
             while ($row = mysql_fetch_array($rest)) {
-              echo "<tr>";
-              echo "<td align='left' bgcolor>".$row[0]."</td><td align='center'>".$row[1]."</td>";
-              echo "</tr>";
+            ?>
+              <tr class="<?php echo str_replace(' ', '', $row[0]) ?>" >
+              <td align='left' bgcolor> <?php echo $row[0] ?> </td>
+              <td align='center'> <?php echo $row[1] ?> </td>
+              </tr>
+            <?php
             }
             ?>
           </table>
@@ -304,9 +353,19 @@ $rzon=mysql_query($qzon);
             </th>
             <?php
             while ($row = mysql_fetch_array($rzon)) {
-              echo "<tr>";
-              echo "<td align='center' bgcolor>"."</td><td align='center'>".$row[1]."</td><td align='center'>".$row[2]."</td><td align='center'>".$row[3]."</td><td align='center'>".$row[4]."</td><td align='center'>".$row[5]."</td><td align='center'>".$row[6]."</td>";
-              echo "</tr>";
+              // var_dump($row);
+              ?>
+              <tr class="<?php echo str_replace(' ', '', $row[0]) ?>" >
+              <td  align='center' bgcolor></td>
+              <td align='center'> <?php echo $row[1] ?></td>
+              <td align='center'> <?php echo $row[2] ?> </td>
+              <td align='center'> <?php echo $row[3] ?></td>
+              <td align='center'><?php echo $row[4] ?></td>
+              <td align='center'><?php echo $row[5] ?></td>
+              <td align='center'><?php echo $row[6] ?></td>
+              </tr>
+              
+              <?php
             }
             ?>
           </table>
@@ -318,4 +377,121 @@ $rzon=mysql_query($qzon);
 <BR>
 
   </body>
+
+  <script>
+    $(document).ready(function () {
+        // console.log("TEST ====>")
+        
+        $('input:checkbox').on('click', function()  {  
+          console.log("change")
+          var checked = [];
+          $("input[name='zona[]']:checked").each(function () {
+              checked.push($(this).val());
+          });
+          console.log(checked)
+
+          var data = <?php echo json_encode($dataBarra); ?> 
+          console.log("Enviada")
+          console.log(data)
+          var parametros = {
+              "checked" : checked,
+              "dataBarra" : data,
+            };
+          $.ajax({
+            type: 'POST',
+            url: 'filtroBusqueda.php',
+            data:   parametros,
+            dataType: 'json',
+            // cache: false,
+            success: function(response) {
+              console.log("respuesta")
+              console.log(response)
+
+              var arr = [];
+              for (i in response){
+                var tmp = []  
+                // console.log("lleg ", response[i].Proceso)
+                tmp.push(response[i].zona );
+                if(response[i].Entregado != undefined){
+                  tmp.push( response[i].Entregado);
+                  $('.Entregado').removeClass("ocultar") 
+                }else $('.Entregado').addClass("ocultar");
+                if(response[i].Parcial != undefined){
+                  $('.Parcial').removeClass("ocultar") 
+                  tmp.push( response[i].Parcial);
+                }else $('.Parcial').addClass("ocultar");
+                if(response[i].Noentregado != undefined){
+                  tmp.push( response[i].Noentregado);
+                  $('.NoEntregado').removeClass("ocultar") 
+                }else $('.NoEntregado').addClass("ocultar");
+                if(response[i].Proceso != undefined){
+                  tmp.push( response[i].Proceso);
+                  $('.Proceso').removeClass("ocultar") 
+                }else $('.Proceso').addClass("ocultar");
+                if(response[i].EnRuta != undefined){
+                  tmp.push( response[i].EnRuta);
+                  $('.EnRuta').removeClass("ocultar") 
+                }else $('.EnRuta').addClass("ocultar");
+                if(response[i].Reprogramado != undefined){
+                  tmp.push( response[i].Reprogramado);
+                  $('.Reprogramado').removeClass("ocultar") 
+                }else $('.Reprogramado').addClass("ocultar");
+                
+
+                arr.push(tmp)
+              }
+
+              console.log(arr)
+              var result = arr
+              // console.log(result)
+              
+              // if(checked.indexOf("Proceso") !== -1){
+              //     console.log("Existe: "+checked.indexOf("Proceso"))
+              // }
+
+              // checked.Entregado != undefined ? console.log(checked.Entregado) : console.log("vEEEEEEEEEEE");
+              
+              google.setOnLoadCallback(drawChartv2());
+              // console.log("======================================================")
+              // Ocultar la tabla
+              
+
+              function drawChartv2() {    
+                // console.log(result)
+                var data_docs = new google.visualization.DataTable();
+                data_docs.addColumn('string', 'Zonas');
+                checked.indexOf("Entregado") !== -1 ? data_docs.addColumn('number', 'Entregado'): "";
+                checked.indexOf("Parcial") !== -1 ? data_docs.addColumn('number', 'Parcial'): "";
+                checked.indexOf("No entregado") !== -1 ? data_docs.addColumn('number', 'No Entregado'): "";
+                checked.indexOf("Proceso") !== -1 ? data_docs.addColumn('number', 'Proceso'): "";
+                checked.indexOf("En Ruta") !== -1 ? data_docs.addColumn('number', 'En Ruta'): "";      
+                checked.indexOf("Reprogramado") !== -1 ? data_docs.addColumn('number', 'Reprogramado'): "";      
+                data_docs.addRows(                  
+                  result
+                );
+                console.log(result)
+                var options2 = {
+                  hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
+                  vAxis: {textStyle: {color: '#1a237e', fontSize: '18', bold: true }},
+                  legend: { position: 'top', maxLines: 2, textStyle: {color: 'black', fontSize: 9}},
+                  bar: { groupWidth: '80%' },
+                  isStacked: true,
+                  colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5','#f97a7a'],    
+                  
+                  
+              };
+              // chart_docs = new google.visualization.ColumnChart( document.getElementById('d_docs'));
+              chart_docs.draw(data_docs, options2);
+
+              }
+              
+              console.log("graficado")
+            },
+        });
+          
+        }); 
+        
+      });
+    // });
+  </script>
 </html>

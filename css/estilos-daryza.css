@@ -100,4 +100,16 @@ table#example2.dataTable tbody tr:hover {
     background-color: #b8c6ec;
     font-weight: bold;
 
-  }
+}
+label {
+    display: block;
+    font-size: 15px;
+}
+div.zonas .zona {
+    width: 16%;
+    float: left;
+}
+
+.ocultar {
+    display: none;
+}
