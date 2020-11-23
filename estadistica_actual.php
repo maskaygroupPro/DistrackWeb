@@ -145,7 +145,7 @@ if(!empty($_POST)){
 </form>
 
 <?php
-$keys = array('zona', 'Entregado', 'Parcial', 'No entregado', 'Proceso', 'En Ruta', 'Reprogramado');
+$keys = array('zona', 'Entregado', 'Parcial', 'No Entregado', 'Proceso', 'En Ruta', 'Reprogramado');
 
 $cmps="p.refcliente, 
 sum(if(p.estado='Entregado',1,0)), 
@@ -219,15 +219,16 @@ $rzon=mysql_query($qzon);
           ?>
         ]);
       var options = {
-          pieHole: 0.4,
-          pieSliceTextStyle : {fontSize: 12},
-          width: 300,
-          height: 200 ,
-          legend: { position: "top" },
-          chartArea: {height: '90%'},          
-          colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5', '#f97a7a'],  
-          hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
-          vAxis: {textStyle: {color: '#1a237e', fontSize: '10', bold: true }},            
+        pieHole: 0.2,
+        pieSliceTextStyle : {fontSize: 14},
+        width: 450,
+        height: 250 ,
+        is3D: true,
+        legend: { position: 'right', textStyle: {color: 'black'}},
+        // chartArea: {height: '80%'},          
+        colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5', '#f97a7a'],  
+        hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
+        vAxis: {textStyle: {color: '#1a237e', fontSize: '10', bold: true }},            
         };
       chart_d = new google.visualization.PieChart(document.getElementById('donut_docs'));
       chart_d.draw(d_docs, options);
@@ -292,7 +293,7 @@ $rzon=mysql_query($qzon);
             </div>
             <div class="zona">
                 <label for="noEntregado">No-Entregado
-                    <input class="checkZona" type="checkbox" name="zona[]" value="No entregado" id="noEntregado" checked>
+                    <input class="checkZona" type="checkbox" name="zona[]" value="No Entregado" id="noEntregado" checked>
                 </label>
             </div>
             <div class="zona">
@@ -320,7 +321,7 @@ $rzon=mysql_query($qzon);
         </td>
       </tr>
       <tr>
-        <td><div id="donut_docs" style="width: 300px; height: 200px;"></div></td>
+        <td><div id="donut_docs" style="width: 100%; height: 200px;"></div></td>
         <td><div id="d_docs" style="width: 90%; height: 55vh;"></div></td>
       </tr>
       <tr style="font-weight: bold; text-transform: uppercase;">
@@ -407,7 +408,7 @@ $rzon=mysql_query($qzon);
               // console.log("respuesta")
               // console.log(response)
 
-              var arr = [];
+              var arr = new Array;
               for (i in response){
                 var tmp = []  
                 // console.log("lleg ", response[i].Proceso)
@@ -420,8 +421,8 @@ $rzon=mysql_query($qzon);
                   $('.Parcial').removeClass("ocultar") 
                   tmp.push( response[i].Parcial);
                 }else $('.Parcial').addClass("ocultar");
-                if(response[i].Noentregado != undefined){
-                  tmp.push( response[i].Noentregado);
+                if(response[i].NoEntregado != undefined){
+                  tmp.push( response[i].NoEntregado);
                   $('.NoEntregado').removeClass("ocultar") 
                 }else $('.NoEntregado').addClass("ocultar");
                 if(response[i].Proceso != undefined){
@@ -447,12 +448,13 @@ $rzon=mysql_query($qzon);
                 arr.push(tmp)
               }
 
+              console.log("respuesta filtro")
               console.log(arr)
               var result = arr
               // console.log(result)
               
-              // if(checked.indexOf("Proceso") !== -1){
-              //     console.log("Existe: "+checked.indexOf("Proceso"))
+              // if(checked.indexOf("No Entregado") !== -1){
+              //     console.log("Existe: "+checked.indexOf("No Entregado"))
               // }
               google.setOnLoadCallback(drawChartv2());
               // console.log("======================================================")
@@ -465,7 +467,7 @@ $rzon=mysql_query($qzon);
                 data_docs.addColumn('string', 'Zonas');
                 checked.indexOf("Entregado") !== -1 ? data_docs.addColumn('number', 'Entregado'): "";
                 checked.indexOf("Parcial") !== -1 ? data_docs.addColumn('number', 'Parcial'): "";
-                checked.indexOf("No entregado") !== -1 ? data_docs.addColumn('number', 'No Entregado'): "";
+                checked.indexOf("No Entregado") !== -1 ? data_docs.addColumn('number', 'No Entregado'): "";
                 checked.indexOf("Proceso") !== -1 ? data_docs.addColumn('number', 'Proceso'): "";
                 checked.indexOf("En Ruta") !== -1 ? data_docs.addColumn('number', 'En Ruta'): "";      
                 checked.indexOf("Reprogramado") !== -1 ? data_docs.addColumn('number', 'Reprogramado'): "";      
@@ -482,15 +484,61 @@ $rzon=mysql_query($qzon);
                   colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5','#f97a7a'],    
                   
                   
-              };
-              // chart_docs = new google.visualization.ColumnChart( document.getElementById('d_docs'));
-              chart_docs.draw(data_docs, options2);
+                };
+                // chart_docs = new google.visualization.ColumnChart( document.getElementById('d_docs'));
+                chart_docs.draw(data_docs, options2);
 
               }
               
               console.log("graficado")
             },
-        });
+          });
+          
+          // console.log("======= DONA ==========")
+          // ============================================
+          var dataDona = [ <?php echo $CADE_DO; ?> ] 
+          // dataDona = array(dataDona)
+          // console.log("DATDONA ", dataDona)
+          if (dataDona){
+            
+            var dataDonaResult = new Array();
+            dataDonaResult.push(['Estado', 'Cant.Docs'])
+            
+            for (i in dataDona){
+              let tmp = dataDona[i][0]
+              // console.log(tmp)
+              const found = checked.find(function(str) {
+                  return str == tmp? true : false;
+              });
+              if(found){
+                // console.log(dataDona[i]);
+                dataDonaResult.push(dataDona[i])
+              }
+            }
+
+            google.charts.setOnLoadCallback(drawChart1);
+            // console.log("Pa imprimit")
+            // console.log(dataDonaResult)                
+
+            function drawChart1() {
+              var d_docs = google.visualization.arrayToDataTable( dataDonaResult  );
+              var options = {
+                pieHole: 0.2,
+                pieSliceTextStyle : {fontSize: 14},
+                width: 450,
+                height: 250 ,
+                is3D: true,
+                legend: { position: 'right', textStyle: {color: 'black'}},
+                // chartArea: {height: '80%'},          
+                colors: ['#0040FF','#01DF01','#DF0101','#f98C07','#CEECF5', '#f97a7a'],  
+                hAxis: {textStyle: {color: '#01579b', fontSize: '9', fontName: 'Verdana', bold: true}},
+                vAxis: {textStyle: {color: '#1a237e', fontSize: '10', bold: true }},            
+              };
+              // chart_d = new google.visualization.PieChart(document.getElementById('donut_docs'));
+              chart_d.draw(d_docs, options);
+
+            }
+          }
           
         }); 
         
