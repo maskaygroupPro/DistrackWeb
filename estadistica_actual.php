@@ -145,7 +145,7 @@ if(!empty($_POST)){
 </form>
 
 <?php
-$keys = ['zona', 'Entregado', 'Parcial', 'No entregado', 'Proceso', 'En Ruta', 'Reprogramado'];
+$keys = array('zona', 'Entregado', 'Parcial', 'No entregado', 'Proceso', 'En Ruta', 'Reprogramado');
 
 $cmps="p.refcliente, 
 sum(if(p.estado='Entregado',1,0)), 
