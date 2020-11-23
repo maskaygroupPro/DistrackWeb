@@ -40,6 +40,6 @@ if (!empty($_POST['checked']) && !empty($_POST['dataBarra'])){
 }
 else
 {
-    echo json_encode([]);
+    echo json_encode(array());
     // return;
 }
