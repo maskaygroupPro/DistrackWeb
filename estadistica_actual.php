@@ -6,6 +6,9 @@ if ( !isset($_SESSION["ID"]) ){
 require_once "include/conexion.php";
 include "filtro.php";
 error_reporting(0);
+$repartoSeleccionado ="";
+$operacion = '';
+$cmp = '';
 if($vdesde=='' && $vhasta==''){
   $vdesde=date("Y-m-d",time()-(0*24*3600));
   $vhasta=date("Y-m-d",time()-(0*24*3600));
@@ -13,6 +16,24 @@ if($vdesde=='' && $vhasta==''){
 if(!empty($_POST)){
   $vdesde=$_POST['vdesde'];
   $vhasta=$_POST['vhasta'];
+  $valor=$_POST['selectedCampo'];
+  $vcampo=$_POST['selectedCampo'];
+  // echo "Campo,".$vcampo;
+
+  switch ($vcampo) {
+    case 'Express':
+        $cmp="p.detalle ";
+        break;
+    case 'Programado':
+        $cmp="p.detalle";
+        break;
+  }
+  if(!empty($vcampo) ){
+    $operacion=" and ".$cmp." like '%".$valor."%' ";
+    // echo "Operacion: ".$operacion;
+    $repartoSeleccionado = $valor;
+  
+  }
 }
 ?>
 
@@ -120,7 +141,7 @@ if(!empty($_POST)){
 
 <form class="form-horizontal" role="form" action="estadistica_actual.php" method="post" enctype="multipart/form-data">
     <div class="form-group">
-      <div class="col-md-4">
+      <div class="col-sm-3">
       </div>
       <div class="col-md-2">
           <label class="col-sm-4 control-label">Desde:</label>
@@ -128,14 +149,30 @@ if(!empty($_POST)){
               <input type='date' id='vdesde' name='vdesde' value='<?=( !empty($vdesde) ? $vdesde : date("Y-m-d",time()-(0*24*3600)))?>'>
           </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
           <label class="col-sm-4 control-label">Hasta:</label>
           <div class="col-sm-8">
               <input type='date' id='vhasta' name='vhasta' value='<?=( !empty($vhasta) ? $vhasta : date("Y-m-d",time()-(0*24*3600)))?>'>
           </div>
       </div>
-      <div class="col-sm-2 col-md-1">
-           <div class="col-sm-12">
+      <div class="col-md-2">
+        <label class="col-sm-4 control-label">Reparto</label>
+        <div class="col-sm-8">
+            <select class="form-control chosen-select" id="selectedCampo" name='selectedCampo' data-placeholder="Seleccione un campo">
+                <option hidden disabled selected value> -- Seleccione -- </option>
+                <option value="Express">Express</option>
+                <!-- <option value="Express1">Express1</option>
+                <option value="Express2">Express2</option>
+                <option value="Express3">Express3</option>
+                <option value="Express4">Express4</option>
+                <option value="Express5">Express5</option> -->
+                <option value="Programado">Programado</option>
+                <!-- <option value="Programado2">Programado2</option> -->
+            </select>
+        </div>
+      </div>
+      <div class="col-md-1">
+           <div class="col-md-1">
                <div class="col-sm-offset-2 p-l-15">
                    <button type="submit" class="btn btn-sm btn-success">Consultar</button>
                </div>
@@ -155,7 +192,8 @@ sum(if(p.estado='Llegada' or p.estado='Inicio' or p.estado='Retorno',1,0)),
 sum(if(p.estado='En Ruta',1,0)),
 sum(if(p.estado='ReProgramado',1,0))";
 $from="intralot.pedidos p";
-$cond="date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' ";
+// TODO: Colocar en el where la consulta sel switch
+$cond="date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' ".$operacion;
 $query="select ".$cmps." from ".$from."  where ".$cond." group by p.refcliente order by p.placa;";
 
 $result = mysql_query($query);
@@ -183,7 +221,7 @@ sum(if(p.estado='En Ruta',1,0)),
 sum(if(p.estado='ReProgramado',1,0))
 ";
 $from="intralot.pedidos p";
-$cond="date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' ";
+$cond="date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' ".$operacion;
 $query2="select ".$cmps." from ".$from."  where ".$cond." ;";
 
 $result2 = mysql_query($query2);
@@ -197,10 +235,10 @@ while ($row = mysql_fetch_array($result2)) {
   $CADE_DO     = "['Entregado',".$row[0]."],['Parcial',".$row[1]."],['No Entregado',".$row[2]."],['Proceso',".$row[3]."],['En Ruta',".$row[4]."],['Reprogramado',".$row[5]."]";
 }
 
-$qest="select estado , count(estado) cant from intralot.pedidos where (fechaprog  between '".$vdesde."' and '".$vhasta."')  group by estado;";
+$qest="select estado,count(estado) cant,detalle from intralot.pedidos as p where (fechaprog  between '".$vdesde."' and '".$vhasta."'".$operacion.")  group by estado;";
 $rest=mysql_query($qest);
  
-$qzon="select Estado,sum(if(p.refcliente='Lima Norte',1,0)) as 'Lima Norte', sum(if(p.refcliente='Lima Oeste',1,0)) as 'Lima Oeste', sum(if(p.refcliente='Lima Centro',1,0)) as 'Lima Centro', sum(if(p.refcliente='Lima Este I',1,0)) as 'Lima Este I', sum(if(p.refcliente='Lima Este II',1,0)) as 'Lima Este II', sum(if(p.refcliente='Lima Sur',1,0))  as 'Lima Sur' from intralot.pedidos p where date(p.fechaprog) between '".$vdesde."' and '".$vhasta."' group by estado;";
+$qzon="select Estado,sum(if(p.refcliente='Lima Norte',1,0)) as 'Lima Norte', sum(if(p.refcliente='Lima Oeste',1,0)) as 'Lima Oeste', sum(if(p.refcliente='Lima Centro',1,0)) as 'Lima Centro', sum(if(p.refcliente='Lima Este I',1,0)) as 'Lima Este I', sum(if(p.refcliente='Lima Este II',1,0)) as 'Lima Este II', sum(if(p.refcliente='Lima Sur',1,0))  as 'Lima Sur' from intralot.pedidos p where date(p.fechaprog) between '".$vdesde."' and '".$vhasta."'".$operacion." group by estado;";
 $rzon=mysql_query($qzon);
 ?>
 <html>
@@ -279,7 +317,8 @@ $rzon=mysql_query($qzon);
   <body>
     <table align='center' width="95%">
       <tr>
-        <td  align='center' colspan='2' style="background-color:#DCEDF0"><h4>Estados General</h4>
+        <td  align='center' colspan='2' style="background-color:#DCEDF0"><h4>Estados General </h4>
+        <h4><span style="color: red;" ><?php echo $repartoSeleccionado ?></span></h4>
         <div id="zonas" class="zonas">
             <div class="zona">
                 <label for="entregado">Entregado
@@ -386,6 +425,12 @@ $rzon=mysql_query($qzon);
         $('input:checkbox').on('click', function()  {  
           // console.log("change")
           var checked = [];
+          // console.log("tam del check ",$("input[name='zona[]']:checked").length)
+          if($("input[name='zona[]']:checked").length < 1)
+          {
+            $(this).prop( "checked", true );
+            return alert("Minimo permitido un estado seleccionado!!")
+          }
           $("input[name='zona[]']:checked").each(function () {
               checked.push($(this).val());
           });
