@@ -141,7 +141,27 @@
                 $corract_ = date("Ymd", strtotime($fechaProg_))."080000";;
                 $molde_ = "";
                 $detalle_ = $emapData[4]; //tipo de programacon
-                
+
+                $aux_tipo_pedido = substr($emapData[4],-1);
+                $aux2_tipo_pedido = substr($emapData[4],0,3);
+                $aux_final_tipo_pedido = "";
+                if($aux2_tipo_pedido == "Pro"){//Programado
+                    if($aux_tipo_pedido=="o"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-".$aux_tipo_pedido;
+                    }
+                }else{//Express
+                    if($aux_tipo_pedido=="s"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
+                    }
+                }
+
+                //echo "<script>console.log('hay data' );</script>";
+                $idPedido_ = $idPedido_.$aux_final_tipo_pedido;
+                $documento_ = $documento_.$aux_final_tipo_pedido;
                 $parte1 = "intralot.pedidos(numpedido,idpedido,localpedido,fechaprog,cantidad,volumen,cliente,telfcliente,dircliente,distcliente,refcliente,codproducto,placa,orden,documento,estado,idplaca,peso,clase,aux1,aux2,aux3,aux4,aux5,u_transportista,lat_prg,lon_prg,rad_prg,etapa,corrini,corract,molde,detalle)"; 
 //                $parte2 .= "('$numPedido_','$idPedido_','$localPedido_','$fechaProg_','$cantidad_','$volumen_','$cliente_','$telfCliente_','$dirCliente_','$disCliente_','$refCliente_','$codProducto_','$placa_','$orden_','$documento_','$estado_','$idPlaca_','$peso_','$clase_','$aux1_','$aux2_','$aux3_','$aux4_','$aux5_','$u_transportista_','$lat_prg_','$lon_prg_','$rad_prg_','$etapa_','$corrini_','$corract_','$molde_','$detalle_'), ";
                 
@@ -254,7 +274,25 @@
                 $item0861_ = $emapData[8];
                 $item2587_ = $emapData[9];
                 $tipo_pedido_= $emapData[10];
-            
+                
+                $aux_tipo_pedido = substr($emapData[10],-1);
+                $aux2_tipo_pedido = substr($emapData[10],0,3);
+                $aux_final_tipo_pedido = "";
+                if($aux2_tipo_pedido == "Pro"){//Programado
+                    if($aux_tipo_pedido=="o"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-".$aux_tipo_pedido;
+                    }
+                }else{//Express
+                    if($aux_tipo_pedido=="s"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
+                    }
+                }
+                //echo "dataaaa";
+                //echo "$aux_final_tipo_pedido";
                 $nombre_ = "";
                 $placa_ = "";
                 
@@ -265,8 +303,10 @@
                     $placa_ =  trim($row["placa"]);
                 }
                 $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
-                
-                
+                $codReparto_ = $codReparto_.$aux_final_tipo_pedido;
+                //echo "dataaaa2";
+                //echo "$codReparto_";
+
                 $parte1 = "intralot.prg_consumibles(codreparto,fechaprog,terminal,nombre,item3926,item4788,item5667,item5669,item5668,item0915,item0861,item2587,placa,tipo_pedido)"; 
 //                $parte2 = "('$codeReparto_','$fechaProg_','$terminal_','$nombre_','$item3926_','$item4788_','$item5667_','$item5669_','$item5668_','$item0915_','$item0861_','$item2587_','$placa_')";
                 if($flagAux){
@@ -279,6 +319,9 @@
 
             }
             $sql = "INSERT into $parte1 values $parte2 ";
+            //echo "dataaaa3";
+            //echo "$sql";
+
             $resultado1 = mysql_query($sql);
 
             if($resultado1){
@@ -359,6 +402,24 @@
                 $caso_ = $emapData[5];
                 $tipo_pedido_ = $emapData[6];
 
+                $aux_tipo_pedido = substr($emapData[6],-1);
+                $aux2_tipo_pedido = substr($emapData[6],0,3);
+                $aux_final_tipo_pedido = "";
+                if($aux2_tipo_pedido == "Pro"){//Programado
+                    if($aux_tipo_pedido=="o"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-".$aux_tipo_pedido;
+                    }
+                }else{//Express
+                    if($aux_tipo_pedido=="s"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
+                    }
+                }
+
+
                 $nombre_ = "";
 
                 $placa_ = "";
@@ -369,7 +430,8 @@
                 }
 
                 $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
-                
+                $codReparto_ = $codReparto_.$aux_final_tipo_pedido;
+
                 $parte1 = "intralot.prg_logisticos(terminal,nombre,cantidad,descripcion,caso,fechaprog,placa,codreparto,tipo_pedido)"; 
                 //$parte2 = "('$terminal_','$nombre_','$cantidad_','$descripcion_','$caso_','$fechaProg_','$placa_','$codReparto_')";
                 
@@ -469,7 +531,25 @@
                 $orden_ = $emapData[8];
                 $tipo_pedido_ = $emapData[9];
 
+                $aux_tipo_pedido = substr($emapData[9],-1);
+                $aux2_tipo_pedido = substr($emapData[9],0,3);
+                $aux_final_tipo_pedido = "";
+                if($aux2_tipo_pedido == "Pro"){//Programado
+                    if($aux_tipo_pedido=="o"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-".$aux_tipo_pedido;
+                    }
+                }else{//Express
+                    if($aux_tipo_pedido=="s"){
+                        $aux_final_tipo_pedido = "";
+                    }else{
+                        $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
+                    }
+                }
+
                 $codReparto_ = $emapData[0].".".date("ymd", strtotime($emapData[1]));
+                $codReparto_ = $codReparto_.$aux_final_tipo_pedido;
                 $nombre_ = "";
                 $dato_ = $terminal_."-".$orden_;
 
@@ -484,7 +564,7 @@
                 
                 $parte1 = "intralot.prg_instantaneas(codreparto,cod_juego,cant_libro,cant_ticket,precio,item,descripcion,nombre,orden,dato,fechaprog,placa,tipo_pedido)"; 
                 //$parte2 = "('$codReparto_','$cod_juego_','$cant_libro_','$cant_ticket_','$precio_','$item_','$descripcion_','$nombre_','$orden_','$dato_','$fechaProg_','$placa_')";
-
+                //$codReparto_ = $codReparto_.$aux_final_tipo_pedido;
                 if($flagAux){
                     $flagAux=false;
                     $parte2 .= "('$codReparto_','$cod_juego_','$cant_libro_','$cant_ticket_','$precio_','$item_','$descripcion_','$nombre_','$orden_','$dato_','$fechaProg_','$placa_','$tipo_pedido_')";
