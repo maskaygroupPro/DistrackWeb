@@ -153,7 +153,7 @@
                     }
                 }else{//Express
                     if($aux_tipo_pedido=="s"){
-                        $aux_final_tipo_pedido = "";
+                        $aux_final_tipo_pedido = "-Exp";
                     }else{
                         $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
                     }
@@ -286,7 +286,7 @@
                     }
                 }else{//Express
                     if($aux_tipo_pedido=="s"){
-                        $aux_final_tipo_pedido = "";
+                        $aux_final_tipo_pedido = "-Exp";
                     }else{
                         $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
                     }
@@ -413,7 +413,7 @@
                     }
                 }else{//Express
                     if($aux_tipo_pedido=="s"){
-                        $aux_final_tipo_pedido = "";
+                        $aux_final_tipo_pedido = "-Exp";
                     }else{
                         $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
                     }
@@ -542,7 +542,7 @@
                     }
                 }else{//Express
                     if($aux_tipo_pedido=="s"){
-                        $aux_final_tipo_pedido = "";
+                        $aux_final_tipo_pedido = "-Exp";
                     }else{
                         $aux_final_tipo_pedido = "-Exp-".$aux_tipo_pedido;
                     }
